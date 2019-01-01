@@ -1,0 +1,41 @@
+@charset 'utf-8'
+@import 'reset.css';
+
+$primary-color = #27bec2;
+.form
+  &__row
+    display flex
+    justify-content space-between
+
+  &__column
+    display inline-block
+
+    &.half
+      width calc(50% - 10px)
+
+    &.full
+      width 100%
+
+    &.nine-tenth
+      width calc(100% * 0.9)
+
+    &.eight-tenth
+      width calc(100% * 0.8)
+
+    &.five-tenth
+      width calc(100% * 0.5)
+
+    &.two-tenth
+      width calc(100% * 0.2)
+
+    &.one-tenth
+      width calc(100% * 0.1)
+
+    &.text-reminder
+      font-size 12px
+      line-height 1.5
+      color #545556
+
+  &__title
+    font-size: 14px
+    font-weight 700

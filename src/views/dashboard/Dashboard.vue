@@ -1,33 +1,30 @@
 <template>
-  <div id="app">
-    <Header/>
-    <router-view></router-view>
+  <div class="dashboard">
+    <div class="dashboard__nav">
+      <NavBar/>
+    </div>
+    <div class="dashboard__table">Table data
+      <router-view></router-view>
+    </div>
   </div>
 </template>
-
 <style lang="stylus">
-#app
+.dashboard
+  display flex
   width 100%
-  font-family 'Helvetica Neue', Arial, Sans-Serif
+  height 100vh
 
-  .app-content
-    display flex
-    width 100%
-    height 100vh
+  &__nav
+    width 15%
 
-    &__nav
-      width 15%
-
-    &__table
-      padding 15px
+  &__table
+    padding 15px
 </style>
-
 <script>
-import Header from "@/components/Header.vue";
-import "./assets/style/app.styl";
+import NavBar from "@/components/NavBar.vue";
 export default {
   components: {
-    Header,
+    NavBar
   },
   props: {},
   data() {
