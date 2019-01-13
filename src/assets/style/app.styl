@@ -1,14 +1,28 @@
 @charset 'utf-8'
 @import 'reset.css';
+@keyframes fold-in
+  0%
+    transform translate3d(100%, 0, 0)
 
+  100%
+    transform translate3d(0, 0, 0)
+
+@keyframes fold-out
+  0%
+    transform translate3d(0, 0, 0)
+
+  100%
+    transform translate3d(100%, 0, 0)
 $primary-color = #27bec2;
 .form
   &__row
     display flex
     justify-content space-between
+    flex-wrap wrap
 
   &__column
     display inline-block
+    margin-bottom 20px
 
     &.half
       width calc(50% - 10px)
@@ -39,3 +53,20 @@ $primary-color = #27bec2;
   &__title
     font-size: 14px
     font-weight 700
+
+.page-enter-active, .page-leave-active
+  transition all 0.5s
+
+.page-enter, .page-leave-to
+  opacity 0
+
+.page-enter-to, .page-leave
+  opacity 1
+
+.Popup-enter-active
+  animation-name fold-in
+  animation-duration 0.5s
+
+.Popup-leave-active
+  animation-name fold-out
+  animation-duration 0.5s

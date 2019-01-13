@@ -1,8 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import App from "./App.vue";
 import Dashboard from "./views/dashboard/Dashboard.vue";
 import Products from "./views/dashboard/Products.vue";
+import Order from "./views/dashboard/Order.vue";
+import Login from "./views/login/Login.vue";
+import LoginPage from "./views/login/LoginPage.vue";
 
 Vue.use(Router);
 
@@ -16,30 +18,32 @@ export default new Router({
     },
     {
       path: "/",
-      component: App,
+      component: Dashboard,
       // meta: { requiresAuth: true }
       children: [
         {
-          path: "/login",
-          name: "Login",
-          // route level code-splitting
-          // this generates a separate chunk (about.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
-          component: () =>
-            import(/* webpackChunkName: "about" */ "./views/Login.vue")
+          path: "",
+          name: "products",
+          component: Products
+          // meta: { requiresAuth: true }
+        },
+        {
+          path: "order",
+          name: "order",
+          component: Order
+          // meta: { requiresAuth: true }
         }
       ]
     },
     {
-      path: "/dashboard",
-      name: "dashboard",
-      component: Dashboard,
+      path: "login",
+      name: "",
+      component: LoginPage,
       children: [
         {
-          path: "products",
-          name: "Products",
-          component: Products
-          // meta: { requiresAuth: true }
+          path: "",
+          name:'login',
+          component: Login
         }
       ]
     }

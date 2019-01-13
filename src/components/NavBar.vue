@@ -1,6 +1,16 @@
+<style lang="stylus">
+.nav
+  &-menu
+    height 100%
+
+    &__item
+      text-align center
+      width 100%
+</style>
+
 <template>
   <div class="nav">
-    <el-menu :default-active="$route.name" class="nav-menu" @select="handleSelect">
+    <el-menu class="nav-menu" @select="handleSelect">
       <el-menu-item
         v-for="(item,idx) in navItem"
         class="nav-menu__item"
@@ -9,16 +19,6 @@
     </el-menu>
   </div>
 </template>
-
-<style lang="stylus">
-.nav
-  &-menu
-    height 100vh
-
-    &__item
-      text-align center
-      width 100%
-</style>
 
 <script>
 export default {
@@ -32,7 +32,7 @@ export default {
         },
         {
           name: "訂單管理",
-          index: "orders"
+          index: "order"
         },
         {
           name: "登入",
@@ -48,7 +48,7 @@ export default {
   destroyed() {},
   methods: {
     handleSelect(key, keyPath) {
-      // this.$router.push({ name: key });
+      this.$router.push({ name: key });
     }
   }
 };

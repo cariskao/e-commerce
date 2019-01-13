@@ -1,11 +1,12 @@
 <style lang="stylus">
 .input
-  width calc(100% - 40px)
+  width calc(100% - 20px)
   border-radius 4px
   font-size 14px
   border 1px solid rgba(0, 0, 0, 0.15)
   height 32px
   padding 2px 10px
+  margin-top 5px
 
   &::placeholder
     color #bfbfbf
@@ -23,7 +24,7 @@
       :value="value"
       @input="$emit('input',$event.target.value)"
       :placeholder="placeholder"
-      type="text"/>
+      :type="type"/>
 </template>
 
 <script>
@@ -45,6 +46,10 @@ export default {
     name: {
       type: String,
       default: ""
+    },
+    type:{
+      type:String,
+      default:'text'
     }
   },
   data() {
