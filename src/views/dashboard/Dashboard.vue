@@ -29,7 +29,6 @@
     <Header class="dashboard__header"/>
     <div class="dashboard-container">
       <NavBar class="dashboard__nav"/>
-
       <div class="dashboard__table">
         <router-view></router-view>
       </div>

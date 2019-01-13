@@ -5,8 +5,18 @@
 </style>
 <template>
   <div class="create-product-form">
+    <Loading :active.sync="isLoading"></Loading>
     <PopupHeader>
-      <h1>新建產品</h1>
+      <template v-if="addForm">
+        <div>
+          <h1>新建產品</h1>
+        </div>
+      </template>
+      <template v-else>
+        <div>
+          <h1>編輯產品</h1>
+        </div>
+      </template>
     </PopupHeader>
     <PopupContent>
       <div class="form__row">
@@ -39,13 +49,23 @@
       </div>
     </PopupContent>
     <PopupFooter>
-      <Button @click.native.prevent="submit"/>
-      <Button btnName="取消"/>
+      <template v-if="addForm">
+        <Button @click.native.prevent="submit"/>
+        <Button btnName="取消" @click.native.prevent="cancel"/>
+      </template>
+      <template v-else>
+        <Button btnName="儲存" @click.native.prevent="saveForm"/>
+        <Button btnName="取消" @click.native.prevent="cancel"/>
+      </template>
     </PopupFooter>
   </div>
 </template>
 
 <script>
+const proxyurl = "https://cors-anywhere.herokuapp.com/";
+const url = `${process.env.VUE_APP_API}`;
+const productApi = `api/${process.env.VUE_APP_CUSTOM}/admin/product/`;
+const pictureApi = `api/${process.env.VUE_APP_CUSTOM}/admin/upload/`;
 import { mapGetters, mapActions } from "vuex";
 import PopupHeader from "@/components/PopupHeader";
 import PopupContent from "@/components/PopupContent.vue";
@@ -80,8 +100,11 @@ export default {
         description: "",
         content: "",
         is_enabled: 1,
-        imageUrl: ""
-      }
+        imageUrl: "",
+        id: ""
+      },
+      addForm: true,
+      isLoading: false
     };
   },
 
@@ -89,21 +112,70 @@ export default {
     ...mapGetters(["PopupData"])
   },
   watch: {},
-  created() {},
+  created() {
+    this.isLoading = true;
+    this.init();
+    this.isLoading = false;
+  },
   mounted() {},
   destroyed() {},
   methods: {
     ...mapActions(["setPopupComponent"]),
-    submit() {
-      const url =
-        "https://vue-course-api.hexschool.io/api/:api_path/admin/product";
-      // this.$refs.upload.upload();
-      console.log(this.form);
+    init() {
+      this.getFormInitial();
+    },
+    getFormInitial() {
+      if (this.PopupData) {
+        const form = this.deepCopy(this.PopupData);
+        this.form = form
+        this.addForm = false;
+      } else {
+        this.addForm = true;
+      }
+    },
+    uploadImg() {
+      const formData = new FormData();
+      formData.append("file-to-upload", this.form.image);
       this.$http
-        .post(url, {
-          data: this.form
+        .post(`${url}${pictureApi}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
         })
         .then(res => console.log(res));
+    },
+    submit() {
+      this.isLoading = true;
+      // this.uploadImg();
+      this.$http
+        .post(`${url}${productApi}`, {
+          data: this.form
+        })
+        .then(res => {
+          console.log(res);
+          this.isLoading = false;
+          this.refreshTableData();
+          this.setPopupComponent("");
+        });
+    },
+    saveForm() {
+      this.isLoading = true;
+      this.$http
+        .put(`${url}${productApi}${this.form.id}`, {
+          data: this.form
+        })
+        .then(res => {
+          console.log(res);
+          this.isLoading = false;
+          this.refreshTableData();
+          this.setPopupComponent("");
+        });
+    },
+    cancel() {
+      this.setPopupComponent("");
+    },
+    refreshTableData() {
+      this.$root.$emit("Popup:refreshPageTableData");
     }
   }
 };

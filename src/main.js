@@ -1,9 +1,12 @@
 import Vue from "vue";
 import Vuex from 'vuex'
 import router from "./router";
+import mixin from "./mixin";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import ElementUI from "element-ui";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import App from "./App.vue";
 import store from './store'
 import "element-ui/lib/theme-chalk/index.css";
@@ -11,12 +14,15 @@ import "element-ui/lib/theme-chalk/index.css";
 Vue.prototype.$http = axios;
 Vue.use(Vuex);
 Vue.use(ElementUI, VueAxios);
+Vue.component('Loading', Loading)
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
+
 
 new Vue({
   router,
   store,
+  mixin,
   render: h => h(App)
 }).$mount("#app");
 
