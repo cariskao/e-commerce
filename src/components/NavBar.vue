@@ -6,11 +6,14 @@
     &__item
       text-align center
       width 100%
+
+    .el-menu-item.is-active
+      color #66cfd2
 </style>
 
 <template>
   <div class="nav">
-    <el-menu class="nav-menu" @select="handleSelect">
+    <el-menu class="nav-menu" @select="handleSelect" :default-active="activeIndex">
       <el-menu-item
         v-for="(item,idx) in navItem"
         class="nav-menu__item"
@@ -35,10 +38,15 @@ export default {
           index: "order"
         },
         {
+          name: "客戶訂單",
+          index: "customer_order"
+        },
+        {
           name: "登入",
           index: "login"
         }
-      ]
+      ],
+      activeIndex: "products"
     };
   },
   watch: {},

@@ -10,11 +10,11 @@
   left 0
   top 0
   height 100%
-  width calc(100% - 450px)
+  width 100%
   z-index 100
 </style>
 <template>
-  <div class="background-mask" :data-color-type="colorType" @click.stop.prevent="setPopupComponent('')"></div>
+  <div class="background-mask" :data-color-type="colorType"></div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
     colorType: {
       type: String,
       default: () => {
-        return "default";
+        return "dark";
       }
     }
   },

@@ -33,7 +33,6 @@
   <div id="app" class="app">
     <div class="app-content">
       <router-view></router-view>
-
       <transition name="page" v-if="isPopupShow">
         <BackgroundMask/>
       </transition>

@@ -1,7 +1,7 @@
 <style lang="stylus">
 .create-product-form
   .upload-img
-    padding 10px 0
+    padding-top 10px
 </style>
 <template>
   <div class="create-product-form">
@@ -21,7 +21,12 @@
     <PopupContent>
       <div class="form__row">
         <div class="form__column full">
-          <UploadImg ref="upload" v-model="form.image" class="upload-img"/>
+          <UploadImg
+            class="upload-img"
+            v-model="form.image"
+            :imageUrl="form.imageUrl"
+            :url="pictureApi"
+          />
         </div>
         <div class="form__column full margin-bottom10px">
           <Label :data-required="true" labelName="產品類型"/>
@@ -104,7 +109,9 @@ export default {
         id: ""
       },
       addForm: true,
-      isLoading: false
+      isLoading: false,
+      pictureApi: `${url}${pictureApi}`,
+      cacheImg: {}
     };
   },
 
@@ -115,10 +122,19 @@ export default {
   created() {
     this.isLoading = true;
     this.init();
+    this.$root.$on("UploadImg:imageUrl", imageUrl => {
+      this.$set(this.form, "imageUrl", imageUrl);
+    });
+    this.$root.$on("UploadImg:file", files => {
+      this.$set(this, "cacheImg", files);
+    });
     this.isLoading = false;
   },
   mounted() {},
-  destroyed() {},
+  destroyed() {
+    this.$root.$off("UploadImg:imageUrl");
+    this.$root.$off("UploadImg:file");
+  },
   methods: {
     ...mapActions(["setPopupComponent"]),
     init() {
@@ -127,48 +143,40 @@ export default {
     getFormInitial() {
       if (this.PopupData) {
         const form = this.deepCopy(this.PopupData);
-        this.form = form
+        this.form = form;
         this.addForm = false;
       } else {
         this.addForm = true;
       }
     },
-    uploadImg() {
-      const formData = new FormData();
-      formData.append("file-to-upload", this.form.image);
-      this.$http
-        .post(`${url}${pictureApi}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(res => console.log(res));
-    },
     submit() {
+      const form = this.deepCopy(this.form);
+      form.image = this.cacheImg;
       this.isLoading = true;
-      // this.uploadImg();
       this.$http
         .post(`${url}${productApi}`, {
-          data: this.form
+          data: form
         })
         .then(res => {
-          console.log(res);
           this.isLoading = false;
           this.refreshTableData();
           this.setPopupComponent("");
+          this.notifySuccess("新增成功");
         });
     },
     saveForm() {
-      this.isLoading = true;
+      // this.isLoading = true;
+      const form = this.deepCopy(this.form);
+      delete form.image;
       this.$http
         .put(`${url}${productApi}${this.form.id}`, {
-          data: this.form
+          data: form
         })
         .then(res => {
-          console.log(res);
           this.isLoading = false;
           this.refreshTableData();
           this.setPopupComponent("");
+          this.notifySuccess("儲存成功");
         });
     },
     cancel() {
@@ -176,6 +184,13 @@ export default {
     },
     refreshTableData() {
       this.$root.$emit("Popup:refreshPageTableData");
+    },
+    notifySuccess(text) {
+      this.$message({
+        showClose: true,
+        message: text,
+        type: "success"
+      });
     }
   }
 };
