@@ -26,8 +26,8 @@
           .el-checkbox__inner
             border-color #66cfd2
 
-      &__img
-        border-radius 50%
+      &__search
+        width 100px
 
     &__pagination
       text-align center
@@ -45,18 +45,17 @@
           :data="products.filter(data => !search || data.category.toLowerCase().includes(search.toLowerCase()))"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column type="selection" width="45"></el-table-column>
           <el-table-column
             label="Category"
-            width="170"
             prop="category"
             sortable
           >{{products.category}}</el-table-column>
-          <el-table-column label="Product Name" width="170" prop="title"></el-table-column>
-          <el-table-column label="Cost" width="90" prop="origin_price" sortable></el-table-column>
-          <el-table-column label="Price" width="90" prop="price" sortable></el-table-column>
-          <el-table-column label="Active" width="90" prop="readableStatus" sortable></el-table-column>
-          <el-table-column align="right">
+          <el-table-column label="Product Name" prop="title"></el-table-column>
+          <el-table-column label="Cost"  prop="origin_price" sortable></el-table-column>
+          <el-table-column label="Price"  prop="price" sortable></el-table-column>
+          <el-table-column label="Active"  prop="readableStatus" sortable></el-table-column>
+          <el-table-column align="right" class="products-content__table__search">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="輸入關鍵字搜索"/>
             </template>
