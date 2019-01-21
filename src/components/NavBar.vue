@@ -13,7 +13,7 @@
 
 <template>
   <div class="nav">
-    <el-menu class="nav-menu" @select="handleSelect" :default-active="activeIndex">
+    <el-menu class="nav-menu" @select="handleSelect" :default-active="$route.name" :unique-opened=true>
       <el-menu-item
         v-for="(item,idx) in navItem"
         class="nav-menu__item"

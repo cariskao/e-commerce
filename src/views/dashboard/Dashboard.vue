@@ -12,6 +12,7 @@
     display flex
     width 100%
     height 100%
+    overflow auto
   &__nav
     width 15%
     height 100%

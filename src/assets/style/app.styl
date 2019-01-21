@@ -1,5 +1,10 @@
+// If you have to use other language but English,
+// you need setting document text format to utf-8.
+// http://blog.shg25.com/?p=97
 @charset 'utf-8'
-@import 'reset.css';
+@import '_reboot.styl'
+@import '_base.styl'
+
 @keyframes fold-in
   0%
     transform translate3d(100%, 0, 0)
@@ -13,12 +18,12 @@
 
   100%
     transform translate3d(100%, 0, 0)
-$primary-color = #27bec2;
-$error-color = #ea0000;
+
 .form
   &__row
     display flex
     justify-content space-between
+    align-items: center
     flex-wrap wrap
 
   &__column
@@ -66,8 +71,8 @@ $error-color = #ea0000;
 
 .Popup-enter-active
   animation-name fold-in
-  animation-duration 0.5s
+  animation-duration .5s
 
 .Popup-leave-active
   animation-name fold-out
-  animation-duration 0.5s
+  animation-duration .5s

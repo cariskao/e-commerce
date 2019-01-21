@@ -1,7 +1,16 @@
 <style lang="stylus">
+
 .create-product-form
   .upload-img
     padding-top 10px
+  .el-textarea__inner
+    margin-top 5px
+    &:focus, &:active, &.is-focus
+      outline none
+      border-color #66cfd2
+
+    &:hover
+      border-color #66cfd2
 </style>
 <template>
   <div class="create-product-form">
@@ -10,7 +19,7 @@
       <template v-if="addForm">
         <div>
           <h1>新建產品</h1>
-        </div>
+        </div>s
       </template>
       <template v-else>
         <div>
@@ -36,6 +45,11 @@
         <div class="form__column full">
           <Label :data-required="true" labelName="產品名稱"/>
           <Input v-model="form.title"/>
+        </div>
+
+        <div class="form__column full">
+          <Label :data-required="true" labelName="產品敘述"/>
+          <el-input class="textarea" v-model="form.description" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
         </div>
 
         <div class="form__column full">

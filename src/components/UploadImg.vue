@@ -148,6 +148,7 @@ export default {
         this.status.fileUploading = false;
         // 判斷檔案大小
       } else {
+        this.errorText = false;
         this.$http
           .post(this.url, formData, {
             headers: {

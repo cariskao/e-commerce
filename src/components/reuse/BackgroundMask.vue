@@ -14,7 +14,10 @@
   z-index 100
 </style>
 <template>
-  <div class="background-mask" :data-color-type="colorType"></div>
+  <div class="background-mask" :data-color-type="colorType">
+    <slot></slot>
+  </div>
+    
 </template>
 
 <script>
