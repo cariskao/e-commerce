@@ -1,5 +1,12 @@
 # side-project
 
+A project that simulate a e-commerce web with CMS system
+
+
+
+
+--------------------------------------------
+
 ## Project setup
 ```
 npm install
@@ -28,4 +35,3 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-Login Password: LHXHkmvy8jTtJv2
