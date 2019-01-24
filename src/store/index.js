@@ -11,7 +11,10 @@ const store = new Vuex.Store({
   state: {
     isPopupShow: false,
     PopupComponent: "",
-    PopupData: ""
+    PopupData: "",
+    isModalShow: false,
+    modalData: "",
+    modal: ""
   },
   mutations,
   actions,

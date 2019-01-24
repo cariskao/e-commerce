@@ -1,4 +1,5 @@
 <style lang="stylus">
+@import '../../assets/style/_base.styl'
 .input
   width calc(100% - 20px)
   border-radius 4px

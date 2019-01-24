@@ -1,9 +1,36 @@
 <style lang="stylus">
+@import '../../assets/style/_base.styl'
 .customer-order
   height 100%
+  width 100%
+  position relative
+  &-cart
+    position fixed
+    top 80px
+    right 2%
+    color $primary-color
+    align-items center
+    cursor pointer
+    width 40px
+    height 40px
+    border-radius 30px
+    background #66cfd2
+    display inline-block
+    .fa-cart-plus
+      width 100%
+      position relative
+      
+      &:before
+        position absolute
+        top 0
+        left 15%
+        height 100%
+        color #fff
+
 
   &-content
     width 100%
+    margin-top 20px
     height calc(100% - 50px)
     overflow auto
 
@@ -17,34 +44,30 @@
 </style>
 <template>
   <div class="customer-order">
+    <div class="customer-order-cart" @click="test">
+      <i class="fas fa-lg fa-cart-plus"></i>
+    </div>
     <div class="customer-order-content">
       <div class="customer-order-content__card">
         <Loading :active.sync="isLoading"></Loading>
         <Card v-model="products"/>
       </div>
-      <button id="show-modal" @click="showModal = true">Show Modal</button>
-      <!-- <Modal v-if="showModal" @close="showModal = false" >
-        <h3 slot="header"> Title </h3>
-      </Modal> -->
     </div>
     <Pagination class="customer-order__pagination" v-model="pagination" :changePage="changePage"/>
-   
   </div>
 </template>
 <script>
 import Card from "@/components/Card";
-import Modal from "@/components/Modal";
-import Pagination from "@/components/Pagination.vue";
+import Pagination from "@/components/Pagination";
 const productApi = `${process.env.VUE_APP_API}api/${
   process.env.VUE_APP_CUSTOM
 }/admin/products`;
 export default {
-  components: { Card, Pagination, Modal },
+  components: { Card, Pagination },
   data() {
     return {
       products: [],
-      pagination: {},
-      
+      pagination: {}
     };
   },
   computed: {},
@@ -65,9 +88,7 @@ export default {
             data: { products, pagination }
           } = res;
           this.products = this.deepCopy(products);
-          console.log(this.products);
           this.pagination = pagination;
-          console.log(this.pagination);
           this.isLoading = false;
         } else {
           alert("請先登入，以利取得資料");
@@ -78,6 +99,9 @@ export default {
     },
     changePage(pageNumber) {
       this.getProducts(pageNumber);
+    },
+    test(){
+      this.$router.push({name:'order'})
     }
   }
 };

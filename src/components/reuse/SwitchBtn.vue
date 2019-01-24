@@ -1,4 +1,5 @@
 <style lang="stylus">
+@import '../../assets/style/_base.styl'
 .switch-button
   .el-switch__label.is-active
     color #66cfd2
@@ -12,7 +13,7 @@
       :inactive-value="0"
       active-text="啟用"
       inactive-text="停用"
-      active-color="#27bec2"
+      active-color="$primary-color"
     ></el-switch>
   </div>
 </template>

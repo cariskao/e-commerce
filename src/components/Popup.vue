@@ -27,11 +27,11 @@ export default {
   created() {},
   mounted() {},
   destroyed() {
-    this.emptySilePopupForm();
+    this.emptyPopupForm();
   },
   methods: {
     ...mapActions(["setPopupData"]),
-    emptySilePopupForm() {
+    emptyPopupForm() {
       this.setPopupData("");
     }
   }

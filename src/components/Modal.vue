@@ -1,11 +1,13 @@
 <style lang="stylus">
+@import '../assets/style/_base.styl'
+
 .modal-wrapper
   width 100%
   padding-top 10%
 
 .modal-container
   width 500px
-  height 500px
+  height auto
   display flex
   align-items center
   flex-direction column
@@ -17,75 +19,44 @@
   transition all 0.3s ease
   font-family Helvetica, Arial, sans-serif
 
-.modal-header h3
-  margin-top 0
-  color #42b983
-
-.modal-body
-  margin 20px 0
-
-.modal-default-button
-  float right
-
-.modal-enter
-  opacity 0
-
-.modal-leave-active
-  opacity 0
-
-.modal-enter .modal-container, .modal-leave-active .modal-container
-  transform scale(1.1)
+.modal
+  width 100%
 </style>
 <template>
   <transition name="modal">
     <BackgroundMask>
       <div class="modal-wrapper">
         <div class="modal-container">
-          <div class="modal-header">
-            <slot name="header">default header</slot>
-          </div>
-
-          <div class="modal-body">
-            <slot name="body">default body</slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">OK</button>
-            </slot>
-          </div>
+          <component class="modal" :is="modal"></component>
         </div>
       </div>
     </BackgroundMask>
   </transition>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
 import BackgroundMask from "@/components/reuse/BackgroundMask";
+import CardModal from "@/components/form/CardModal";
 export default {
-  components: { BackgroundMask },
-  props: {
-    value: {
-      type: Array,
-      default: []
-    }
-  },
+  components: { BackgroundMask, CardModal },
+  props: {},
   data() {
     return {};
   },
   computed: {
-    fullValue: {
-      get() {
-        return this.value;
-      },
-      set(newValue) {
-        this.$emit("input", newValue);
-      }
-    }
+    ...mapGetters(["modal"])
   },
   watch: {},
   created() {},
   mounted() {},
-  methods: {}
+  destroyed() {
+    this.emptyModalForm();
+  },
+  methods: {
+    ...mapActions(["setModalData"]),
+    emptyModalForm() {
+      this.setModalData("");
+    }
+  }
 };
 </script>

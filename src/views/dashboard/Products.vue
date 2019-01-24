@@ -46,26 +46,31 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="45"></el-table-column>
-          <el-table-column
-            label="Category"
-            prop="category"
-            sortable
-          >{{products.category}}</el-table-column>
+          <el-table-column label="Category" prop="category" sortable>{{products.category}}</el-table-column>
           <el-table-column label="Product Name" prop="title"></el-table-column>
-          <el-table-column label="Cost"  prop="origin_price" sortable></el-table-column>
-          <el-table-column label="Price"  prop="price" sortable></el-table-column>
-          <el-table-column label="Active"  prop="readableStatus" sortable></el-table-column>
-          <el-table-column align="right" class="products-content__table__search">
-            <template slot="header" slot-scope="scope">
-              <el-input v-model="search" size="mini" placeholder="輸入關鍵字搜索"/>
+          <el-table-column label="Cost" prop="origin_price" sortable></el-table-column>
+          <el-table-column label="Price" prop="price" sortable></el-table-column>
+          <el-table-column label="Active" prop="readableStatus" sortable></el-table-column>
+          <el-table-column  class="products-content__table__search">
+            <template slot="header" slot-scope="scope" width="16%">
+              <el-input v-model="search" size="mini" placeholder="輸入關鍵字"/>
             </template>
             <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
               <el-button
-                size="mini"
+                size="small"
+                type="success"
+                icon="el-icon-edit"
+                round
+                :style="{'margin-right':'25px'}"
+                @click="handleEdit(scope.$index, scope.row)"
+              ></el-button>
+              <el-button
+                size="small"
                 type="danger"
+                icon="el-icon-delete"
+                round
                 @click="handleDelete(scope.$index, scope.row)"
-              >Delete</el-button>
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>

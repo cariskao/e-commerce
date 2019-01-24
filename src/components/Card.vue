@@ -1,37 +1,46 @@
 <style lang="stylus">
+@import '../assets/style/_base.styl'
+
 .card-container
   width 100%
   height 100%
   display flex
   flex-wrap wrap
-  justify-content center
+  justify-content space-evenly
 
   .el-card, .card
     width 280px
     margin 5px
     border-radius 8px
 
-    &__img
+    &__background
       width 280px
       height 200px
-      background no-repeat center center
+      background no-repeat
       background-size cover
+      background-position 50% 50%
 
     &-info
-      padding 10px
+      margin 10px 0
+      padding 0 10px
 
       &__item
         width 100%
         height 100%
-        padding 5px
         max-height 30px
         border-bottom 1px solid #e7edf2
+        padding 5px 0
         margin-bottom 10px
 
         p
           text-overflow ellipsis
           overflow hidden
           white-space nowrap
+
+        &__original-price
+          color grey
+          font-size 16px
+          text-decoration line-through
 
       &__btn
         margin 0
@@ -58,7 +67,7 @@
       shadow="hover"
       :body-style="{ padding: '0px' }"
     >
-      <div class="card__img" :style="{backgroundImage:`url(${item.imageUrl})`}"></div>
+      <div class="card__background" :style="{backgroundImage:`url(${item.imageUrl})`}"></div>
       <div class="card-info">
         <div class="form__row card-info__item">
           <span>{{item.title}}</span>
@@ -68,24 +77,40 @@
           <p>{{item.description}}</p>
         </div>
         <div class="form__row card-info__item">
+          <h4 class="card-info__item__original-price">原價：${{parseInt(item.price) * 1.8}}</h4>
           <span>售價： ${{item.price}}</span>
         </div>
-        <div class="form__row card-info__item">
-          <Button class="card-info__btn" btnName="了解更多" @click.native="openModal"/>
+        <div class="form__row">
+          <Button class="card-info__btn" btnName="了解更多" @click.native="openModal(item.id)"/>
           <Button class="card-info__btn__special" btnName="加入購物車"/>
         </div>
-        <Modal v-if="showModal" v-model="fullValue" @close="showModal = false">
-          <h3 slot="header">Title</h3>
-        </Modal>
       </div>
     </el-card>
+
+    <!-- <Loading :active.sync="isLoading"></Loading> -->
+    <!-- <Modal v-if="showModal" v-model="fullValue" @close="showModal = false">
+
+    </Modal>-->
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
 import Button from "@/components/reuse/Button";
-import Modal from "@/components/Modal";
+import Select from "@/components/reuse/Select";
+import Label from "@/components/reuse/Label";
+// import Modal from "@/components/Modal";
+import TextArea from "@/components/TextArea";
+const productApi = `${process.env.VUE_APP_API}api/${
+  process.env.VUE_APP_CUSTOM
+}/product/`;
+const cartApi = `${process.env.VUE_APP_API}api/leochuang/cart`;
 export default {
-  components: { Button, Modal },
+  components: {
+    Button,
+    Select,
+    TextArea,
+    Label
+  },
   props: {
     value: {
       type: Array,
@@ -94,7 +119,9 @@ export default {
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
+      product: {},
+      isLoading: false,
     };
   },
   computed: {
@@ -108,12 +135,28 @@ export default {
     }
   },
   watch: {},
-  created() {
-  },
+  created() {},
   mounted() {},
   methods: {
-    openModal() {
+    ...mapActions(["setModalData", "setModal"]),
+    openModal(id) {
       this.showModal = true;
+      this.isLoading = true;
+      this.$http.get(`${productApi}${id}`).then(res => {
+        if (res.data.success) {
+          const {
+            data: { product }
+          } = res;
+          this.product = this.deepCopy(product);
+          this.setModalData(this.product);
+          this.setModal("CardModal");
+          this.isLoading = false;
+        } else {
+          alert("請先登入，以利取得資料");
+          this.$router.push({ name: "login" });
+          this.isLoading = false;
+        }
+      });
     }
   }
 };

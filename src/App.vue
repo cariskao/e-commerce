@@ -1,6 +1,7 @@
 <style lang="stylus">
 #app
-  width 100%
+  max-width 1960px
+  margin 0 auto
   height 100vh
   font-family 'Helvetica Neue', Arial, Sans-Serif
 
@@ -39,6 +40,9 @@
       <transition name="Popup">
         <Popup class="dashboard__popup" v-if="isPopupShow"/>
       </transition>
+      <transition name="page">
+        <Modal v-if="isModalShow"/>
+      </transition>
     </div>
   </div>
 </template>
@@ -47,12 +51,14 @@
 import { mapGetters, mapActions } from "vuex";
 import Header from "@/components/Header.vue";
 import Popup from "@/components/Popup.vue";
+import Modal from "@/components/Modal.vue";
 import BackgroundMask from "@/components/reuse/BackgroundMask.vue";
 import "./assets/style/app.styl";
 export default {
   components: {
     Header,
     Popup,
+    Modal,
     BackgroundMask
   },
   props: {},
@@ -66,10 +72,17 @@ export default {
       } else {
         this.setPopupShow(false);
       }
+    },
+    modal(newValue) {
+      if (newValue) {
+        this.setModalShow(true);
+      } else {
+        this.setModalShow(false);
+      }
     }
   },
   computed: {
-    ...mapGetters(["isPopupShow", "PopupComponent"])
+    ...mapGetters(["isPopupShow", "PopupComponent", "isModalShow", "modal"])
   },
   created() {
     // const api = "https://vue-course-api.hexschool.io/api/leochuang/products";
@@ -81,7 +94,7 @@ export default {
   mounted() {},
   destroyed() {},
   methods: {
-    ...mapActions(["setPopupShow"])
+    ...mapActions(["setPopupShow", "setModalShow"])
   }
 };
 </script>

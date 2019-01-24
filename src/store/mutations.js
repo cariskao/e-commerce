@@ -7,6 +7,15 @@ const mutations = {
   },
   setPopupData(state, value) {
     state.PopupData = value;
+  },
+  setModalShow(state, value) {
+    state.isModalShow = value;
+  },
+  setModalData(state, value) {
+    state.modalData = value;
+  },
+  setModal(state, value) {
+    state.modal = value;
   }
 };
 

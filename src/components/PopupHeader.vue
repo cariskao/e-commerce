@@ -1,12 +1,13 @@
 <style lang="stylus">
+@import '../assets/style/_base.styl'
   .side-popup-header
     display flex
     justify-content space-between
     font-size 18px
     padding 15px 10px 15px 30px
     height 50px
-    background-color #27bec2
-    border 1px solid #27bec2
+    background-color $primary-color
+    border 1px solid $primary-color
     color #ffffff
     font-weight 500
 

@@ -19,7 +19,7 @@
       <template v-if="addForm">
         <div>
           <h1>新建產品</h1>
-        </div>s
+        </div>
       </template>
       <template v-else>
         <div>
@@ -49,7 +49,7 @@
 
         <div class="form__column full">
           <Label :data-required="true" labelName="產品敘述"/>
-          <el-input class="textarea" v-model="form.description" type="textarea" :rows="2" placeholder="请输入内容"></el-input>
+          <TextArea v-model="form.description" type="textarea" :rowHeight="3" placeholder="敘述內容"/>
         </div>
 
         <div class="form__column full">
@@ -87,19 +87,21 @@ const productApi = `api/${process.env.VUE_APP_CUSTOM}/admin/product/`;
 const pictureApi = `api/${process.env.VUE_APP_CUSTOM}/admin/upload/`;
 import { mapGetters, mapActions } from "vuex";
 import PopupHeader from "@/components/PopupHeader";
-import PopupContent from "@/components/PopupContent.vue";
-import PopupFooter from "@/components/PopupFooter.vue";
-import UploadImg from "@/components/UploadImg.vue";
-import Button from "@/components/reuse/Button.vue";
-import Label from "@/components/reuse/Label.vue";
-import Input from "@/components/reuse/Input.vue";
-import SwitchBtn from "@/components/reuse/SwitchBtn.vue";
+import PopupContent from "@/components/PopupContent";
+import PopupFooter from "@/components/PopupFooter";
+import UploadImg from "@/components/UploadImg";
+import TextArea from "@/components/TextArea";
+import Button from "@/components/reuse/Button";
+import Label from "@/components/reuse/Label";
+import Input from "@/components/reuse/Input";
+import SwitchBtn from "@/components/reuse/SwitchBtn";
 export default {
   components: {
     PopupHeader,
     PopupContent,
     PopupFooter,
     UploadImg,
+    TextArea,
     Button,
     Input,
     Label,
