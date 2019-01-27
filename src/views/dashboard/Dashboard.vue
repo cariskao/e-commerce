@@ -15,6 +15,7 @@
     overflow auto
   &__nav
     width 15%
+    min-width 200px
     height 100%
   &__table
     overflow auto

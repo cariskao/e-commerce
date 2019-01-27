@@ -37,8 +37,9 @@
 import { mapGetters, mapActions } from "vuex";
 import BackgroundMask from "@/components/reuse/BackgroundMask";
 import CardModal from "@/components/form/CardModal";
+import CartModal from "@/components/form/CartModal";
 export default {
-  components: { BackgroundMask, CardModal },
+  components: { BackgroundMask, CardModal, CartModal },
   props: {},
   data() {
     return {};

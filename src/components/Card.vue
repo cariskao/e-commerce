@@ -45,21 +45,10 @@
       &__btn
         margin 0
         border-radius 20px
-
-        &__special
-          color hsla(0, 87%, 69%, 0.7)
-          border-radius 20px
-          margin 0
-          background-color hsla(0, 87%, 69%, 0.1)
-          border-color hsla(0, 87%, 69%, 0.2)
-
-          &:hover
-            background-color hsla(0, 87%, 69%, 0.2)
-            border-color hsla(0, 87%, 69%, 0.3)
-            color hsla(0, 87%, 69%, 0.8)
 </style>
 <template>
   <div class="card-container">
+    <Loading :active.sync="isLoading"></Loading>
     <el-card
       class="card"
       v-for="(item,index) in fullValue"
@@ -82,15 +71,15 @@
         </div>
         <div class="form__row">
           <Button class="card-info__btn" btnName="了解更多" @click.native="openModal(item.id)"/>
-          <Button class="card-info__btn__special" btnName="加入購物車"/>
+          <Button
+            class="card-info__btn"
+            colorType="special"
+            @click.native="addToCart(item.id, item.num)"
+            btnName="加入購物車"
+          />
         </div>
       </div>
     </el-card>
-
-    <!-- <Loading :active.sync="isLoading"></Loading> -->
-    <!-- <Modal v-if="showModal" v-model="fullValue" @close="showModal = false">
-
-    </Modal>-->
   </div>
 </template>
 <script>
@@ -98,7 +87,6 @@ import { mapGetters, mapActions } from "vuex";
 import Button from "@/components/reuse/Button";
 import Select from "@/components/reuse/Select";
 import Label from "@/components/reuse/Label";
-// import Modal from "@/components/Modal";
 import TextArea from "@/components/TextArea";
 const productApi = `${process.env.VUE_APP_API}api/${
   process.env.VUE_APP_CUSTOM
@@ -121,7 +109,8 @@ export default {
     return {
       showModal: false,
       product: {},
-      isLoading: false,
+      cartLength: "",
+      isLoading:false
     };
   },
   computed: {
@@ -156,6 +145,22 @@ export default {
           this.$router.push({ name: "login" });
           this.isLoading = false;
         }
+      });
+    },
+    addToCart(id, qty = 1) {
+      this.isLoading = true
+      this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
+        this.showModal = false;
+        this.$root.$emit("Card:refresh");
+        this.isLoading = false
+        this.notifySuccess("成功加入購物車");
+      });
+    },
+    notifySuccess(text) {
+      this.$message({
+        showClose: true,
+        message: text,
+        type: "success"
       });
     }
   }

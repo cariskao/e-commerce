@@ -26,35 +26,23 @@
       padding 5px 0
       margin-bottom 10px
 
-    &__select
-      width 100%
-      margin-bottom 10px
+      &__original-price
+        color grey
+        font-size 16px
+        text-decoration line-through
 
       p
         text-overflow ellipsis
         overflow hidden
         white-space nowrap
 
-      &__original-price
-        color grey
-        font-size 16px
-        text-decoration line-through
+    &__select
+      width 100%
+      margin-bottom 10px
 
     &__btn
       margin 0
       border-radius 20px
-
-      &__special
-        color hsla(0, 87%, 69%, 0.7)
-        border-radius 20px
-        margin 0
-        background-color hsla(0, 87%, 69%, 0.1)
-        border-color hsla(0, 87%, 69%, 0.2)
-
-        &:hover
-          background-color hsla(0, 87%, 69%, 0.2)
-          border-color hsla(0, 87%, 69%, 0.3)
-          color hsla(0, 87%, 69%, 0.8)
 </style>
 <template>
   <div v-if="form" class="card-modal">
@@ -80,7 +68,8 @@
     </div>
     <div class="form__row" slot="footer">
       <Button
-        class="modal__btn__special"
+        class="modal__btn"
+        colorType="special"
         @click.native="addToCart(form.id, form.num)"
         btnName="加入購物車"
       />
@@ -90,6 +79,7 @@
 </template>
 
 <script>
+const cartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
 import { mapGetters, mapActions } from "vuex";
 import ModalContent from "@/components/ModalContent";
 import TextArea from "@/components/TextArea";
@@ -145,13 +135,24 @@ export default {
       this.getFormInitial();
     },
     getFormInitial() {
+      this.isLoading = true;
       this.form = this.deepCopy(this.modalData);
+      this.isLoading = false;
     },
     addToCart(id, qty) {
       this.isLoading = true;
       this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
         this.showModal = false;
+        this.$root.$emit("CardModal:refresh")
         this.isLoading = false;
+        this.notifySuccess("成功加入購物車");
+      });
+    },
+    notifySuccess(text) {
+      this.$message({
+        showClose: true,
+        message: text,
+        type: "success"
       });
     },
     cancel() {

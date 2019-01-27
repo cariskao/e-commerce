@@ -14,8 +14,9 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import CreateProductForm from "@/components/form/CreateProductForm.vue";
+import CreateCouponForm from "@/components/form/CreateCouponForm.vue";
 export default {
-  components: { CreateProductForm },
+  components: { CreateProductForm,CreateCouponForm },
   props: {},
   data() {
     return {};

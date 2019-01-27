@@ -1,6 +1,10 @@
 <style lang="stylus">
 .nav
+  width 100%
+  height 100%
+
   &-menu
+    width 100%
     height 100%
 
     &__item
@@ -9,16 +13,46 @@
 
     .el-menu-item.is-active
       color #66cfd2
+
+    &__icon
+      margin-right 10px
 </style>
 
 <template>
   <div class="nav">
-    <el-menu class="nav-menu" @select="handleSelect" :default-active="$route.name" :unique-opened=true>
-      <el-menu-item
-        v-for="(item,idx) in navItem"
-        class="nav-menu__item"
-        :index="item.index"
-      >{{item.name}}</el-menu-item>
+    <el-menu
+      class="nav-menu"
+      @select="handleSelect"
+      :default-active="$route.name"
+      :unique-opened="true"
+    >
+      <el-submenu index="1">
+        <template slot="title">
+          <i class="fas fa-lg fa-user nav-menu__icon"></i>
+          <span>管理列表</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item
+            v-for="(item,idx) in adminItem"
+            class="nav-menu__item"
+            :index="item.index"
+          >{{item.name}}</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
+      <el-submenu index="2">
+        <template slot="title">
+          <i class="el-icon-goods"></i>
+          <span>模擬訂單</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item
+            v-for="(item,idx) in basicItem"
+            class="nav-menu__item"
+            :index="item.index"
+          >{{item.name}}</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
@@ -28,7 +62,7 @@ export default {
   props: {},
   data() {
     return {
-      navItem: [
+      adminItem: [
         {
           name: "產品管理",
           index: "products"
@@ -38,7 +72,13 @@ export default {
           index: "order"
         },
         {
-          name: "客戶訂單",
+          name: "優惠卷管理",
+          index: "coupon"
+        }
+      ],
+      basicItem: [
+        {
+          name: "模擬訂單",
           index: "customer_order"
         },
         {

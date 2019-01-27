@@ -5,10 +5,6 @@
   .el-select
     width 100%
 
-  &[data-is-error=true]
-    .el-input--suffix .el-input__inner
-      border-color $input-error-color
-
   &[data-css-style=default]
     .el-input__icon
       line-height 32px
@@ -40,7 +36,7 @@
   font-weight normal
 
   &.selected
-    color $primary-color
+    color $primary-color !important
 </style>
 <template>
   <div class="select" :data-css-style="cssStyle" :data-is-error="isError">

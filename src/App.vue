@@ -63,7 +63,9 @@ export default {
   },
   props: {},
   data() {
-    return {};
+    return {
+      isLoading:false
+    };
   },
   watch: {
     PopupComponent(newValue) {

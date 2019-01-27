@@ -1,65 +1,58 @@
 <style lang="stylus">
-
-.create-product-form
+.create-coupon-form
   .upload-img
     padding-top 10px
+
   .el-textarea__inner
     margin-top 5px
+
     &:focus, &:active, &.is-focus
       outline none
       border-color #66cfd2
 
     &:hover
       border-color #66cfd2
+  .el-date-editor.el-input
+    margin-top 5px
+    .el-input__inner
+      &:hover, &:focus
+        border-color #66cfd2
+    .el-input__icon
+      color #66cfd2
 </style>
 <template>
-  <div class="create-product-form">
+  <div class="create-coupon-form">
     <Loading :active.sync="isLoading"></Loading>
     <PopupHeader>
       <template v-if="addForm">
         <div>
-          <h1>新建產品</h1>
+          <h1>新建優惠卷</h1>
         </div>
       </template>
       <template v-else>
         <div>
-          <h1>編輯產品</h1>
+          <h1>編輯優惠卷</h1>
         </div>
       </template>
     </PopupHeader>
     <PopupContent>
       <div class="form__row">
-        <div class="form__column full">
-          <UploadImg
-            class="upload-img"
-            v-model="form.image"
-            :imageUrl="form.imageUrl"
-            :url="pictureApi"
-          />
-        </div>
         <div class="form__column full margin-bottom10px">
-          <Label :data-required="true" labelName="產品類型"/>
-          <Input v-model="form.category"/>
-        </div>
-
-        <div class="form__column full">
-          <Label :data-required="true" labelName="產品名稱"/>
+          <Label :data-required="true" labelName="優惠卷名稱"/>
           <Input v-model="form.title"/>
         </div>
 
         <div class="form__column full">
-          <Label :data-required="true" labelName="產品敘述"/>
-          <TextArea v-model="form.description" type="textarea" :rowHeight="3" placeholder="敘述內容"/>
+          <Label :data-required="true" labelName="有效期限"/>
+          <el-date-picker v-model="form.due_date" type="date" placeholder="選擇日期"></el-date-picker>
         </div>
-
         <div class="form__column full">
-          <Label :data-required="true" labelName="成本價錢"/>
-          <Input v-model="form.origin_price"/>
+          <Label :data-required="true" labelName="折扣 (%)"/>
+          <Input v-model="form.percent"/>
         </div>
-
         <div class="form__column full">
-          <Label :data-required="true" labelName="販售價格"/>
-          <Input v-model="form.price"/>
+          <Label :data-required="true" labelName="優惠卷代碼"/>
+          <Input v-model="form.code"/>
         </div>
 
         <div class="form__column full">
@@ -82,14 +75,11 @@
 
 <script>
 const url = `${process.env.VUE_APP_API}`;
-const productApi = `api/${process.env.VUE_APP_CUSTOM}/admin/product/`;
-const pictureApi = `api/${process.env.VUE_APP_CUSTOM}/admin/upload/`;
+const couponApi = "api/leochuang/admin/coupon/";
 import { mapGetters, mapActions } from "vuex";
 import PopupHeader from "@/components/PopupHeader";
 import PopupContent from "@/components/PopupContent";
 import PopupFooter from "@/components/PopupFooter";
-import UploadImg from "@/components/UploadImg";
-import TextArea from "@/components/TextArea";
 import Button from "@/components/reuse/Button";
 import Label from "@/components/reuse/Label";
 import Input from "@/components/reuse/Input";
@@ -99,8 +89,6 @@ export default {
     PopupHeader,
     PopupContent,
     PopupFooter,
-    UploadImg,
-    TextArea,
     Button,
     Input,
     Label,
@@ -111,21 +99,13 @@ export default {
     return {
       form: {
         title: "",
-        category: "",
-        origin_price: "",
-        price: "",
-        unit: "",
-        image: "",
-        description: "",
-        content: "",
         is_enabled: 1,
-        imageUrl: "",
-        id: ""
+        percent: 80,
+        due_date: "",
+        code: ""
       },
       addForm: true,
-      isLoading: false,
-      pictureApi: `${url}${pictureApi}`,
-      cacheImg: {}
+      isLoading: false
     };
   },
 
@@ -134,21 +114,10 @@ export default {
   },
   watch: {},
   created() {
-    this.isLoading = true;
-    this.init();
-    this.$root.$on("UploadImg:imageUrl", imageUrl => {
-      this.$set(this.form, "imageUrl", imageUrl);
-    });
-    this.$root.$on("UploadImg:file", files => {
-      this.$set(this, "cacheImg", files);
-    });
-    this.isLoading = false;
+    this.getFormInitial();
   },
   mounted() {},
-  destroyed() {
-    this.$root.$off("UploadImg:imageUrl");
-    this.$root.$off("UploadImg:file");
-  },
+  destroyed() {},
   methods: {
     ...mapActions(["setPopupComponent"]),
     init() {
@@ -165,15 +134,14 @@ export default {
     },
     submit() {
       const form = this.deepCopy(this.form);
-      form.image = this.cacheImg;
       this.isLoading = true;
       this.$http
-        .post(`${url}${productApi}`, {
+        .post(`${url}${couponApi}`, {
           data: form
         })
         .then(res => {
-          this.refreshTableData();
           this.isLoading = false;
+          this.refreshTableData();
           this.setPopupComponent("");
           this.notifySuccess("新增成功");
         });
@@ -183,12 +151,12 @@ export default {
       const form = this.deepCopy(this.form);
       delete form.image;
       this.$http
-        .put(`${url}${productApi}${this.form.id}`, {
+        .put(`${url}${couponApi}${this.form.id}`, {
           data: form
         })
         .then(res => {
-          this.refreshTableData();
           this.isLoading = false;
+          this.refreshTableData();
           this.setPopupComponent("");
           this.notifySuccess("儲存成功");
         });

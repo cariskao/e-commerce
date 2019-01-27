@@ -37,24 +37,20 @@
   <div class="products">
     <div class="products-content">
       <Loading :active.sync="isLoading"></Loading>
-      <Button btnName="新增產品" @click.native.stop.prevent="showSidePopup"/>
-      <Button btnName="刪除已選產品" @click.native.stop.prevent="deleteMultiProducts(selectedItem)"/>
+      <Button btnName="新增優惠卷" @click.native.stop.prevent="showSidePopup"/>
+      <Button btnName="刪除優惠卷" @click.native.stop.prevent="deleteMultiProducts(selectedItem)"/>
       <div class="products-content__table-container">
         <el-table
           class="products-content__table"
-          :data="products.filter(data => !search || data.category.toLowerCase().includes(search.toLowerCase()))"
+          :data="coupons"
           @selection-change="handleSelectionChange"
+          empty-text="優惠卷尚未建立 >_<"
         >
           <el-table-column type="selection" width="45"></el-table-column>
-          <el-table-column label="Category" prop="category" sortable>{{products.category}}</el-table-column>
-          <el-table-column label="Product Name" prop="title"></el-table-column>
-          <el-table-column label="Cost" prop="origin_price" sortable></el-table-column>
-          <el-table-column label="Price" prop="price" sortable></el-table-column>
+          <el-table-column label="Title" prop="title" sortable>{{coupons.title}}</el-table-column>
           <el-table-column label="Active" prop="readableStatus" sortable></el-table-column>
-          <el-table-column  class="products-content__table__search">
-            <template slot="header" slot-scope="scope" width="16%">
-              <el-input v-model="search" size="mini" placeholder="輸入關鍵字"/>
-            </template>
+          <el-table-column label="Due date" prop="readableDate" sortable></el-table-column>
+          <el-table-column class="products-content__table__search">
             <template slot-scope="scope">
               <el-button
                 size="small"
@@ -86,10 +82,8 @@
 </template>
 
 <script>
-const productApi = `${process.env.VUE_APP_API}api/${
-  process.env.VUE_APP_CUSTOM
-}/admin/products`;
-const deleteApi = `${process.env.VUE_APP_API}api/leochuang/admin/product/`;
+const couponApi = `${process.env.VUE_APP_API}api/leochuang/admin/coupons`;
+const deleteCoupon = `${process.env.VUE_APP_API}api/leochuang/admin/coupon/`;
 import { mapActions } from "vuex";
 import CreateProductForm from "@/components/form/CreateProductForm.vue";
 import Button from "@/components/reuse/Button.vue";
@@ -102,11 +96,11 @@ export default {
   },
   data() {
     return {
-      products: [],
+      coupons: [],
       search: "",
       isLoading: false,
       pagination: {},
-      selectedItem: [],
+      selectedItem: []
     };
   },
   computed: {},
@@ -114,12 +108,15 @@ export default {
   created() {
     this.init();
     this.$root.$on("Popup:refreshPageTableData", () => {
-      this.getProducts();
+      this.getCoupons();
     });
-    this.products.forEach(item => {
+    this.coupons.forEach(item => {
       item.is_enabled === 1
         ? (item.readableStatus = "Active")
         : (item.readableStatus = "Disabled");
+      item.due_date
+        ? (item.readableDate = this.renderTimestamp(item.due_date))
+        : (item.readableDate = "無期限");
     });
   },
   mounted() {},
@@ -129,20 +126,23 @@ export default {
   methods: {
     ...mapActions(["setPopupComponent", "setPopupData"]),
     init() {
-      this.getProducts();
+      this.getCoupons();
     },
-    getProducts(page = 1) {
+    getCoupons(page = 1) {
       this.isLoading = true;
-      this.$http.get(`${productApi}?page=${page}`).then(res => {
+      this.$http.get(`${couponApi}?page=${page}`).then(res => {
         if (res.data.success) {
           const {
-            data: { products, pagination }
+            data: { coupons, pagination }
           } = res;
-          this.products = this.deepCopy(products);
-          this.products.forEach(item => {
+          this.coupons = this.deepCopy(coupons);
+          this.coupons.forEach(item => {
             item.is_enabled === 1
               ? (item.readableStatus = "Active")
               : (item.readableStatus = "Disabled");
+            item.due_date
+              ? (item.readableDate = this.renderTimestamp(item.due_date))
+              : (item.readableDate = "無期限");
           });
           this.pagination = pagination;
           this.isLoading = false;
@@ -155,11 +155,11 @@ export default {
     },
     handleEdit(index, rowData) {
       this.setPopupData(rowData);
-      this.showSidePopup("CreateProductForm");
+      this.showSidePopup("CreateCouponForm");
     },
     handleDelete(index, row) {
       this.$http
-        .delete(`${deleteApi}${row.id}`, {
+        .delete(`${deleteCoupon}${row.id}`, {
           data: row
         })
         .then(res => {
@@ -168,7 +168,7 @@ export default {
         });
     },
     showSidePopup() {
-      this.setPopupComponent("CreateProductForm");
+      this.setPopupComponent("CreateCouponForm");
     },
     deleteMessage() {
       this.$message({
@@ -178,7 +178,7 @@ export default {
       });
     },
     changePage(pageNumber) {
-      this.getProducts(pageNumber);
+      this.getCoupons(pageNumber);
     },
     handleSelectionChange(val) {
       this.selectedItem = val;
@@ -193,6 +193,13 @@ export default {
           message: "請選擇產品進行刪除",
           type: "warning"
         });
+    },
+    renderTimestamp(timestamp) {
+      const data = new Date(timestamp);
+      const year = data.getFullYear();
+      const month = data.getMonth() + 1;
+      const date = data.getDate();
+      return `${year}/${month}/${date}`;
     }
   }
 };

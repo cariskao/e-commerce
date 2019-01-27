@@ -13,7 +13,7 @@
       :inactive-value="0"
       active-text="啟用"
       inactive-text="停用"
-      active-color="$primary-color"
+      active-color="#27bec2"
     ></el-switch>
   </div>
 </template>

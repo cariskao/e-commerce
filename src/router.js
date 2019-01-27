@@ -4,6 +4,7 @@ import Dashboard from "./views/dashboard/Dashboard.vue";
 import Products from "./views/dashboard/Products.vue";
 import CustomerOrder from "./views/dashboard/CustomerOrder.vue";
 import Order from "./views/dashboard/Order.vue";
+import Coupon from "./views/dashboard/Coupon.vue";
 import LoginPage from "./views/login/LoginPage.vue";
 
 Vue.use(Router);
@@ -17,7 +18,7 @@ export default new Router({
       redirect: "/"
     },
     {
-      path: "/",
+      path: "",
       component: Dashboard,
       meta: { requiresAuth: true },
       children: [
@@ -32,6 +33,11 @@ export default new Router({
           name: "order",
           component: Order,
           meta: { requiresAuth: true }
+        },
+        {
+          path: "coupon",
+          name: "coupon",
+          component: Coupon,
         },
         {
           path: "customer_order",
