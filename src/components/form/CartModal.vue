@@ -47,7 +47,6 @@
   &__footer
     margin 10px auto
     text-align center
-
 </style>
 <template>
   <div class="cart-modal">
@@ -114,7 +113,8 @@
     </div>
     <!-- Body End -->
     <div class="cart-modal__footer" slot="footer">
-      <Button class="modal__btn" btnName="確認" @click.native="cancel"/>
+      <Button class="modal__btn" btnName="取消" @click.native="cancel"/>
+      <Button class="modal__btn" btnName="付款去" @click.native="openPaymentModal"/>
     </div>
   </div>
 </template>
@@ -168,6 +168,7 @@ export default {
       this.getCartData();
     },
     getCartData() {
+      this.isLoading = true;
       this.$http.get(cartApi).then(res => {
         const {
           data: {
@@ -177,6 +178,7 @@ export default {
         this.tableData.cart = carts;
         this.tableData.total = total;
         this.tableData.finalTotal = final_total;
+        this.isLoading = false;
       });
     },
     cancel() {
@@ -229,6 +231,9 @@ export default {
             this.deleteMessage("找不到優惠券!");
           }
         });
+    },
+    openPaymentModal() {
+      this.setModal("PaymentModal");
     }
   }
 };

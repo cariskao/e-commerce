@@ -5,6 +5,7 @@ import Products from "./views/dashboard/Products.vue";
 import CustomerOrder from "./views/dashboard/CustomerOrder.vue";
 import Order from "./views/dashboard/Order.vue";
 import Coupon from "./views/dashboard/Coupon.vue";
+import Checkout from "./views/dashboard/Checkout.vue";
 import LoginPage from "./views/login/LoginPage.vue";
 
 Vue.use(Router);
@@ -43,6 +44,12 @@ export default new Router({
           path: "customer_order",
           name: "customer_order",
           component: CustomerOrder,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "checkout/:orderId",
+          name: "checkout",
+          component: Checkout,
         }
       ]
     },

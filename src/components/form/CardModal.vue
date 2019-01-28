@@ -143,9 +143,10 @@ export default {
       this.isLoading = true;
       this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
         this.showModal = false;
-        this.$root.$emit("CardModal:refresh")
+        this.$root.$emit("CardModal:refresh");
         this.isLoading = false;
         this.notifySuccess("成功加入購物車");
+        this.setModal("");
       });
     },
     notifySuccess(text) {

@@ -8,6 +8,9 @@ import Loading from "vue-loading-overlay";
 import App from "./App.vue";
 import store from "./store";
 import currencyFilter from "./filter/currency";
+import VeeValidate from "vee-validate";
+import zhTWValidate from "vee-validate/dist/locale/zh_TW";
+
 import "./mixins";
 import "vue-loading-overlay/dist/vue-loading.css";
 import "element-ui/lib/theme-chalk/index.css";
@@ -15,8 +18,10 @@ import "element-ui/lib/theme-chalk/index.css";
 Vue.prototype.$http = axios;
 Vue.use(Vuex);
 Vue.use(ElementUI, VueAxios);
+Vue.use(VeeValidate);
 Vue.component("Loading", Loading);
 Vue.filter("currency", currencyFilter);
+VeeValidate.Validator.localize("zh-TW", zhTWValidate);
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true;
 

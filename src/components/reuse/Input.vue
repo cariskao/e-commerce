@@ -1,5 +1,6 @@
 <style lang="stylus">
 @import '../../assets/style/_base.styl'
+
 .input
   width calc(100% - 20px)
   border-radius 4px
@@ -18,14 +19,19 @@
 
   &:hover
     border-color #66cfd2
+
+input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button
+  -webkit-appearance none
+  margin 0
 </style>
 <template>
-    <input
-      class="input"
-      :value="value"
-      @input="$emit('input',$event.target.value)"
-      :placeholder="placeholder"
-      :type="type"/>
+  <input
+    class="input"
+    :value="value"
+    @input="$emit('input',$event.target.value)"
+    :placeholder="placeholder"
+    :type="type"
+  >
 </template>
 
 <script>
@@ -40,17 +46,13 @@ export default {
       type: String,
       default: ""
     },
-    validate: {
-      type: String,
-      default: ""
-    },
     name: {
       type: String,
       default: ""
     },
-    type:{
-      type:String,
-      default:'text'
+    type: {
+      type: String,
+      default: "text"
     }
   },
   data() {
