@@ -6,11 +6,13 @@
     width 100%
 
     &__table-container
-      height calc(100vh - 30vh)
       width 100%
+      height calc(100% - 100px)
 
     &__table
       height 100%
+
+
 
       .el-checkbox__inner
         &:hover, &:focus
@@ -30,8 +32,11 @@
         width 100px
 
     &__pagination
+      display flex
+      align-items flex-end
+      justify-content center
       text-align center
-      height 50px
+      height 150px
 </style>
 <template>
   <div class="products">
@@ -44,6 +49,7 @@
           class="products-content__table"
           :data="products.filter(data => !search || data.category.toLowerCase().includes(search.toLowerCase()))"
           @selection-change="handleSelectionChange"
+          height="620"
         >
           <el-table-column type="selection" width="45"></el-table-column>
           <el-table-column label="Category" prop="category" sortable>{{products.category}}</el-table-column>

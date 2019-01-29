@@ -76,13 +76,15 @@
           <p class="checkout-content__table-item__qty">數量</p>
           <p class="checkout-content__table-item__price">單價</p>
           <p v-if="!order.products.coupon" class="checkout-content__table-item__discount">折扣價</p>
-          
         </div>
         <div v-for="(item,index) in products" :key="item.id" class="checkout-content__table-item">
           <p class="checkout-content__table-item__product">{{item.product.title}}</p>
           <p class="checkout-content__table-item__qty">{{item.qty}}</p>
           <p class="checkout-content__table-item__price">{{item.product.price}}</p>
-          <p v-if="!order.products.coupon" class="checkout-content__table-item__discount">{{item.final_total}}</p>
+          <p
+            v-if="!order.products.coupon"
+            class="checkout-content__table-item__discount"
+          >{{item.final_total}}</p>
         </div>
         <div class="checkout-content__table-total">
           <p>總計： $ {{order.total}}</p>
@@ -110,11 +112,15 @@
         <h4 v-if="!order.is_paid" :style="{'color':'#F56C6C'}">尚未付款</h4>
         <h4 v-else :style="{'color':'#67C23A'}">付款成功</h4>
       </div>
+      <div v-if="!order.is_paid" class="checkout-content__item">
+        <Label class="checkout-content__label" labelName="付款方式"/>
+        <Select v-model="renderPaymentMethod" :selectOptions="paymentOptions"/>
+      </div>
       <div class="checkout-content__textarea">
         <Label class="checkout-content__label" labelName="備註"/>
         <TextArea v-model="textAreaPlaceholder" readonly/>
       </div>
-      <div class="checkout-content__btn">
+      <div v-if="!order.is_paid" class="checkout-content__btn">
         <Button btnName="確定付款" @click.native.prevent="confirmPayment"/>
       </div>
     </div>
@@ -128,11 +134,13 @@ import { mapGetters, mapActions } from "vuex";
 import TextArea from "@/components/TextArea";
 import Button from "@/components/reuse/Button";
 import Label from "@/components/reuse/Label";
+import Select from "@/components/reuse/Select";
 export default {
   components: {
     TextArea,
     Button,
-    Label
+    Label,
+    Select
   },
   props: {},
   data() {
@@ -149,7 +157,13 @@ export default {
         total: "",
         user: {}
       },
-      products: []
+      products: [],
+      renderPaymentMethod: 0,
+      paymentOptions: [
+        { value: 0, name: "信用卡" },
+        { value: 1, name: "超商付款" },
+        { value: 2, name: "貨到付款" }
+      ]
     };
   },
 
@@ -193,7 +207,6 @@ export default {
           data: { order }
         } = res;
         this.order = order;
-        console.log(order);
         const products = this.deepCopy(this.order.products);
         const productsArray = Object.keys(products).map(item => products[item]);
         this.products = productsArray;
@@ -202,17 +215,29 @@ export default {
     },
     confirmPayment() {
       this.isLoading = true;
-      this.$http.post(`${payApi}/${this.orderId}`).then(res => {
-        console.log(res);
-        if (res.data.success) {
-          this.getOrderData();
-          this.isLoading = false;
-          this.notifySuccess("付款成功");
-        } else {
-          this.isLoading = false;
-          this.errorMessage("付款失敗");
-        }
-      });
+      const order = this.deepCopy(this.order);
+      if (this.renderPaymentMethod === 0) {
+        order.payment_method = "信用卡";
+      }
+      if (this.renderPaymentMethod === 1) {
+        order.payment_method = "超商付款";
+      }
+      if (this.renderPaymentMethod === 2) {
+        order.payment_method = "貨到付款";
+      }
+      this.$http
+        .post(`${payApi}/${this.orderId}`, { data: order })
+        .then(res => {
+          console.log(res);
+          if (res.data.success) {
+            this.getOrderData();
+            this.isLoading = false;
+            this.notifySuccess("付款成功");
+          } else {
+            this.isLoading = false;
+            this.errorMessage("付款失敗");
+          }
+        });
     }
   }
 };

@@ -29,6 +29,8 @@
     box-shadow -1px 0 6px 0 rgba(197, 197, 197, 0.5)
     // border 2px solid #ebeef5
     background-color white
+  .error
+    border 1px solid #F56C6C
 </style>
 <template>
   <div id="app" class="app">

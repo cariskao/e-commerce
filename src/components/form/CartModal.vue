@@ -114,7 +114,7 @@
     <!-- Body End -->
     <div class="cart-modal__footer" slot="footer">
       <Button class="modal__btn" btnName="取消" @click.native="cancel"/>
-      <Button class="modal__btn" btnName="付款去" @click.native="openPaymentModal"/>
+      <Button class="modal__btn" btnName="下一步" @click.native="openPaymentModal"/>
     </div>
   </div>
 </template>

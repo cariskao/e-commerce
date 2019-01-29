@@ -56,14 +56,6 @@
                 round
                 @click="handleEdit(scope.$index, scope.row)"
               >查看明細</el-button>
-              <el-button
-                size="small"
-                type="success"
-                icon="el-icon-edit"
-                round
-                @click="handleEdit(scope.$index, scope.row)"
-              ></el-button>
-
             </template>
           </el-table-column>
         </el-table>
@@ -141,10 +133,10 @@ export default {
     },
     handleEdit(index, rowData) {
       this.setPopupData(rowData);
-      this.showSidePopup("CreateCouponForm");
+      this.showSidePopup("OrderForm");
     },
     showSidePopup() {
-      this.setPopupComponent("CreateCouponForm");
+      this.setPopupComponent("OrderForm");
     },
     deleteMessage() {
       this.$message({

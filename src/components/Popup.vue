@@ -15,8 +15,9 @@
 import { mapGetters, mapActions } from "vuex";
 import CreateProductForm from "@/components/form/CreateProductForm.vue";
 import CreateCouponForm from "@/components/form/CreateCouponForm.vue";
+import OrderForm from "@/components/form/OrderForm.vue";
 export default {
-  components: { CreateProductForm,CreateCouponForm },
+  components: { CreateProductForm,CreateCouponForm, OrderForm },
   props: {},
   data() {
     return {};

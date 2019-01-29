@@ -39,7 +39,7 @@
     color $primary-color !important
 </style>
 <template>
-  <div class="select" :data-css-style="cssStyle" :data-is-error="isError">
+  <div class="select" :data-css-style="cssStyle">
     <el-select v-model="fullValue" @change="selectChange" :placeholder="placeholder">
       <el-option
         v-for="(item,index) in selectOptions"
@@ -78,12 +78,6 @@ export default {
       type: String,
       default: () => {
         return "default";
-      }
-    },
-    isError: {
-      type: Boolean,
-      default: () => {
-        return false;
       }
     },
     placeholder: {

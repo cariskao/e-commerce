@@ -27,8 +27,7 @@
     margin 10px auto
     text-align center
 
-  .error
-    border 1px solid #F56C6C
+
 </style>
 <template>
   <div class="payment-modal">
@@ -140,27 +139,28 @@ export default {
   methods: {
     ...mapActions(["setModal"]),
     onSubmit() {
-      // this.$router.push(`/checkout/${res.data.orderId}`)
       this.$validator.validate().then(result => {
-        if (!result) {
+        if (result) {
+          this.isLoading = true;
+          this.$http
+            .post(paymentApi, {
+              data: this.form
+            })
+            .then(res => {
+              if (res.data.success) {
+                this.isLoading = false;
+                console.log(res);
+                this.$router.push(`/checkout/${res.data.orderId}`);
+                this.setModal("");
+              } else {
+                this.isLoading = false;
+                this.errorMessage("傳送失敗，再試一次");
+                return;
+              }
+            });
+        } else {
           this.errorMessage("資料不完整");
-        } else this.isLoading = true;
-        this.$http
-          .post(paymentApi, {
-            data: this.form
-          })
-          .then(res => {
-            if (res.data.success) {
-              this.isLoading = false;
-              console.log(res)
-              this.$router.push(`/checkout/${res.data.orderId}`)
-              this.setModal('');
-            } else {
-              this.isLoading = false;
-              this.errorMessage("傳送失敗，再試一次");
-              return;
-            }
-          });
+        }
       });
     },
     cancel() {

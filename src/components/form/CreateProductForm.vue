@@ -1,10 +1,11 @@
 <style lang="stylus">
-
 .create-product-form
   .upload-img
     padding-top 10px
+
   .el-textarea__inner
     margin-top 5px
+
     &:focus, &:active, &.is-focus
       outline none
       border-color #66cfd2
@@ -39,27 +40,47 @@
         </div>
         <div class="form__column full margin-bottom10px">
           <Label :data-required="true" labelName="產品類型"/>
-          <Input v-model="form.category"/>
+          <Input
+            v-model="form.category"
+            v-validate="'required'"
+            name="category"
+            :class="{'error':errors.has('category')}"
+          />
         </div>
 
         <div class="form__column full">
           <Label :data-required="true" labelName="產品名稱"/>
-          <Input v-model="form.title"/>
+          <Input
+            v-model="form.title"
+            v-validate="'required'"
+            name="title"
+            :class="{'error':errors.has('title')}"
+          />
         </div>
 
         <div class="form__column full">
-          <Label :data-required="true" labelName="產品敘述"/>
+          <Label labelName="產品敘述"/>
           <TextArea v-model="form.description" type="textarea" :rowHeight="3" placeholder="敘述內容"/>
         </div>
 
         <div class="form__column full">
           <Label :data-required="true" labelName="成本價錢"/>
-          <Input v-model="form.origin_price"/>
+          <Input
+            v-model="form.origin_price"
+            v-validate="'required'"
+            name="origin_price"
+            :class="{'error':errors.has('origin_price')}"
+          />
         </div>
 
         <div class="form__column full">
           <Label :data-required="true" labelName="販售價格"/>
-          <Input v-model="form.price"/>
+          <Input
+            v-model="form.price"
+            v-validate="'required'"
+            name="price"
+            :class="{'error':errors.has('price')}"
+          />
         </div>
 
         <div class="form__column full">
@@ -164,19 +185,26 @@ export default {
       }
     },
     submit() {
-      const form = this.deepCopy(this.form);
-      form.image = this.cacheImg;
-      this.isLoading = true;
-      this.$http
-        .post(`${url}${productApi}`, {
-          data: form
-        })
-        .then(res => {
-          this.refreshTableData();
-          this.isLoading = false;
-          this.setPopupComponent("");
-          this.notifySuccess("新增成功");
-        });
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.isLoading = true;
+          const form = this.deepCopy(this.form);
+          form.image = this.cacheImg;
+          this.isLoading = true;
+          this.$http
+            .post(`${url}${productApi}`, {
+              data: form
+            })
+            .then(res => {
+              this.refreshTableData();
+              this.isLoading = false;
+              this.setPopupComponent("");
+              this.notifySuccess("新增成功");
+            });
+        } else {
+          this.errorMessage("資料不完整");
+        }
+      });
     },
     saveForm() {
       this.isLoading = true;
@@ -204,6 +232,35 @@ export default {
         showClose: true,
         message: text,
         type: "success"
+      });
+    },
+    errorMessage(error = "已刪除") {
+      this.$message({
+        showClose: true,
+        message: error,
+        type: "error"
+      });
+    },
+    onSubmit() {
+      this.$validator.validate().then(result => {
+        if (result) {
+          this.isLoading = true;
+          const form = this.deepCopy(this.form);
+          form.image = this.cacheImg;
+          this.isLoading = true;
+          this.$http
+            .post(`${url}${productApi}`, {
+              data: form
+            })
+            .then(res => {
+              this.refreshTableData();
+              this.isLoading = false;
+              this.setPopupComponent("");
+              this.notifySuccess("新增成功");
+            });
+        } else {
+          this.errorMessage("資料不完整");
+        }
       });
     }
   }
