@@ -107,7 +107,7 @@ export default {
   watch: {},
   created() {
     this.init();
-    this.$root.$on("Popup:refreshPageTableData", () => {
+    this.$root.$on("Coupon:refreshPageTableData", () => {
       this.getCoupons();
     });
     this.coupons.forEach(item => {
@@ -121,7 +121,7 @@ export default {
   },
   mounted() {},
   destroyed() {
-    this.$root.$off("Popup:refreshPageTableData");
+    this.$root.$off("Coupon:refreshPageTableData");
   },
   methods: {
     ...mapActions(["setPopupComponent", "setPopupData"]),

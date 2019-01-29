@@ -165,7 +165,7 @@ export default {
       this.setPopupComponent("");
     },
     refreshTableData() {
-      this.$root.$emit("Popup:refreshPageTableData");
+      this.$root.$emit("Coupon:refreshPageTableData");
     },
     notifySuccess(text) {
       this.$message({

@@ -224,6 +224,7 @@ export default {
           if (res.data.success) {
             this.isLoading = false;
             this.discount = true;
+            this.getCartData();
             this.notifySuccess("成功套用");
           } else {
             console.log(res);
