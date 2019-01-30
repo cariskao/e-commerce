@@ -15,8 +15,8 @@ Form Validation
 ---
 ![image](https://github.com/Leo36094/e-commerce/blob/master/validation.gif)
 
-npm install
-npm run serve
+1. npm install
+2. npm run serve
 
 --------------------------------------------
 
