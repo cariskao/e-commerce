@@ -2,6 +2,7 @@
 
 A project that simulate a e-commerce web with CMS system (DataBase was build by others)
 
+
 Create / Delete / Sort / Edit Products (pagination feature included)
 ---
 ![image](https://github.com/Leo36094/e-commerce/blob/master/product.gif)
@@ -14,6 +15,8 @@ Form Validation
 ---
 ![image](https://github.com/Leo36094/e-commerce/blob/master/validation.gif)
 
+npm install
+npm run serve
 
 --------------------------------------------
 
