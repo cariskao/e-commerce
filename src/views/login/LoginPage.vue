@@ -6,42 +6,44 @@
 
   &__container
     display flex
-    height calc(100vh - 10%)
+    height 100vh
+    background url('../../assets/img/login.jpg') no-repeat center center
+    background-size cover
     align-items center
     justify-content center
     margin 0 auto
 
-.login
-  display flex
-  align-items center
-  width 100%
-  &__form
-    margin 0 auto
-    background #ecf0f1
-    width 350px
-    border-radius 5px
-    box-shadow 3px 3px 10px #333
-    padding 20px
-
-    &__item
-      margin-bottom 20px
-
-    &__button
+    .login
+      display flex
+      align-items center
       width 100%
-      text-align center
-      margin 0 auto
+      &__form
+        margin 0 auto
+        background #ecf0f1
+        width 350px
+        border-radius 5px
+        box-shadow 3px 3px 10px #333
+        padding 20px
 
-      button
-        padding 15px 25px
-        font-size 18px
-        border-radius 4px
+        &__item
+          margin-bottom 20px
 
-        &:focus, &:active
-          outline none
-          border-color $primary-color
+        &__button
+          width 100%
+          text-align center
+          margin 0 auto
 
-        &:hover
-          border-color #66cfd2
+          button
+            padding 15px 25px
+            font-size 18px
+            border-radius 4px
+
+            &:focus, &:active
+              outline none
+              border-color $primary-color
+
+            &:hover
+              border-color #66cfd2
 </style>
 <template>
   <div class="login-page__wrapper">
@@ -99,7 +101,7 @@ export default {
       const api = "https://vue-course-api.hexschool.io/admin/signin";
       this.$http.post(api, this.login).then(res => {
         if (res.data.success) {
-          this.$router.push("/");
+          this.$router.push("/admin");
         }
       });
     }

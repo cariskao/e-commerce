@@ -5,6 +5,12 @@
   width 100%
   padding-top 10%
 
+@media only screen and (max-width: 600px)
+  .modal-wrapper
+    padding-top calc(500px + 20%) !important
+  .modal-container
+    height 100%
+
 .modal-container
   width 500px
   height auto
@@ -25,7 +31,7 @@
 <template>
   <transition name="modal">
     <BackgroundMask>
-      <div class="modal-wrapper">
+      <div class="modal-wrapper modalHeight">
         <div class="modal-container">
           <component class="modal" :is="modal"></component>
         </div>
@@ -43,21 +49,44 @@ export default {
   components: { BackgroundMask, CardModal, CartModal, PaymentModal },
   props: {},
   data() {
-    return {};
+    return {
+      innerHeight: ""
+    };
   },
   computed: {
     ...mapGetters(["modal"])
   },
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.getFullHeight();
+    this.onResize();
+  },
   destroyed() {
     this.emptyModalForm();
+    this.getFullHeight();
+    this.onResize();
   },
   methods: {
     ...mapActions(["setModalData"]),
     emptyModalForm() {
       this.setModalData("");
+    },
+    getFullHeight() {
+      this.innerHeight = window.innerHeight;
+      const header = document.querySelector("header");
+      if (header) {
+        let bannerSection = document.querySelector(".modalHeight");
+        let paddingTop = this.innerHeight / 1.75 + "px";
+        bannerSection.style.paddingTop = paddingTop;
+      }else return 
+    },
+    onResize() {
+      this.$nextTick(() => {
+        window.addEventListener("resize", () => {
+          this.getFullHeight();
+        });
+      });
     }
   }
 };

@@ -6,6 +6,7 @@
   &-menu
     width 100%
     height 100%
+    min-height calc(100vh - 81px)
 
     &__item
       text-align center
@@ -23,8 +24,6 @@
     <el-menu
       class="nav-menu"
       @select="handleSelect"
-      :default-active="$route.name"
-      :unique-opened="true"
     >
       <el-submenu index="1">
         <template slot="title">
@@ -65,15 +64,15 @@ export default {
       adminItem: [
         {
           name: "產品管理",
-          index: "products"
+          index: "admin_products"
         },
         {
           name: "訂單管理",
-          index: "order"
+          index: "admin_order"
         },
         {
           name: "優惠卷管理",
-          index: "coupon"
+          index: "admin_coupon"
         }
       ],
       basicItem: [
@@ -96,7 +95,7 @@ export default {
   destroyed() {},
   methods: {
     handleSelect(key, keyPath) {
-      this.$router.push({ name: key });
+      this.$router.push({name:key});
     }
   }
 };

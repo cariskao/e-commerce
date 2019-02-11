@@ -139,7 +139,7 @@ export default {
       this.form = this.deepCopy(this.modalData);
       this.isLoading = false;
     },
-    addToCart(id, qty) {
+    addToCart(id, qty=1) {
       this.isLoading = true;
       this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
         this.showModal = false;

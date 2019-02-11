@@ -26,8 +26,6 @@
   &__footer
     margin 10px auto
     text-align center
-
-
 </style>
 <template>
   <div class="payment-modal">
@@ -147,10 +145,14 @@ export default {
               data: this.form
             })
             .then(res => {
-              if (res.data.success) {
+              const header = document.querySelector("header");
+              if (res.data.success && header) {
                 this.isLoading = false;
-                console.log(res);
-                this.$router.push(`/checkout/${res.data.orderId}`);
+                this.$router.push(`/shoppingCart/${res.data.orderId}`);
+                this.setModal("");
+              } else if (res.data.success) {
+                this.isLoading = false;
+                this.$router.push(`/admin/checkout/${res.data.orderId}`);
                 this.setModal("");
               } else {
                 this.isLoading = false;

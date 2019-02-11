@@ -41,15 +41,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import NavBar from "@/components/NavBar.vue";
-import Products from "@/views/dashboard/Products.vue";
-import Order from "@/views/dashboard/Order.vue";
 import Header from "@/components/Header.vue";
 
 export default {
   components: {
     NavBar,
-    Products,
-    Order,
     Header
   },
   props: {},

@@ -12,7 +12,7 @@
   &-name
     padding-left 10px
     color #66cfd2
-    font-size rem(18px)
+    font-size 18px
     font-weight 900
 
 .user-info
@@ -20,9 +20,11 @@
   align-items center
 
   &__text
-    font-size rem(14px)
+    font-size 14px
     color #66cfd2
     font-weight 600
+    margin 5px
+    cursor pointer
 
   &__btn
     width 30px
@@ -34,7 +36,8 @@
       <div class="logo-zone-name">Side Project</div>
     </div>
     <div class="user-info">
-      <div class="user-info__text company-name">Leo</div>
+      <div @click="hello"class="user-info__text">Leo |</div>
+      <div @click="redirect" class="user-info__text">Home Page |</div>
       <Button class="user-info__btn" btnName="登出" @click.native.prevent.stop="logout"/>
     </div>
   </div>
@@ -58,6 +61,12 @@ export default {
       this.$http.post(logoutApi).then(res => {
         this.$router.push({name:'login'});
       });
+    },
+    redirect(){
+      this.$router.push({name:'home'})
+    },
+    hello(){
+      alert('Hello, this was created by Leo')
     }
   }
 };

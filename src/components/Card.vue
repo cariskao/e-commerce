@@ -45,6 +45,12 @@
       &__btn
         margin 0
         border-radius 20px
+
+  @media only screen and (max-width: 600px)
+    .el-card, .card
+      width 320px
+      &__background
+        width 320px
 </style>
 <template>
   <div class="card-container">
@@ -110,7 +116,7 @@ export default {
       showModal: false,
       product: {},
       cartLength: "",
-      isLoading:false
+      isLoading: false
     };
   },
   computed: {
@@ -148,11 +154,11 @@ export default {
       });
     },
     addToCart(id, qty = 1) {
-      this.isLoading = true
+      this.isLoading = true;
       this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
         this.showModal = false;
         this.$root.$emit("Card:refresh");
-        this.isLoading = false
+        this.isLoading = false;
         this.notifySuccess("成功加入購物車");
       });
     },

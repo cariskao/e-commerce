@@ -19,36 +19,11 @@
     p
       padding 10px 0
 
-    &__table
-      margin-bottom 20px
-
-      &-item
-        display flex
-        border-bottom 1px solid #e7edf2
-        margin-bottom 20px
-
-        &__product
-          width 40%
-
-        &__qty
-          width 20%
-
-        &__price
-          width 20%
-
-        &__discount
-          width 20%
-
-      &-total
-        display flex
-        align-items center
-        justify-content flex-end
-
     &__item
       display flex
       justify-content space-between
       align-items center
-      border-bottom 1px solid #e7edf2
+      border-bottom 1px solid #8c8c8c
       padding 5px 0
       margin-bottom 10px
 
@@ -64,29 +39,53 @@
     &__btn
       margin 0 auto
       text-align right
+.table
+  margin-bottom 20px
+
+  &-item
+    display flex
+    border-bottom 1px solid #8c8c8c
+    margin-bottom 20px
+
+    &__product
+      width 40%
+
+    &__qty
+      width 20%
+
+    &__price
+      width 20%
+
+    &__discount
+      width 20%
+
+  &-total
+    display flex
+    align-items center
+    justify-content flex-end
 </style>
 <template>
   <div class="checkout">
     <Loading :active.sync="isLoading"></Loading>
     <div class="checkout-content">
       <div class="checkout-content__title">訂單資訊</div>
-      <div class="checkout-content__table">
-        <div class="checkout-content__table-item">
-          <p class="checkout-content__table-item__product">產品名稱</p>
-          <p class="checkout-content__table-item__qty">數量</p>
-          <p class="checkout-content__table-item__price">單價</p>
-          <p v-if="!order.products.coupon" class="checkout-content__table-item__discount">折扣價</p>
+      <div class="table">
+        <div class="table-item">
+          <p class="table-item__product">產品名稱</p>
+          <p class="table-item__qty">數量</p>
+          <p class="table-item__price">單價</p>
+          <p v-if="!order.products.coupon" class="table-item__discount">折扣價</p>
         </div>
-        <div v-for="(item,index) in products" :key="item.id" class="checkout-content__table-item">
-          <p class="checkout-content__table-item__product">{{item.product.title}}</p>
-          <p class="checkout-content__table-item__qty">{{item.qty}}</p>
-          <p class="checkout-content__table-item__price">{{item.product.price}}</p>
+        <div v-for="(item,index) in products" :key="item.id" class="table-item">
+          <p class="table-item__product">{{item.product.title}}</p>
+          <p class="table-item__qty">{{item.qty}}</p>
+          <p class="table-item__price">{{item.product.price}}</p>
           <p
             v-if="!order.products.coupon"
-            class="checkout-content__table-item__discount"
+            class="table-item__discount"
           >{{item.final_total}}</p>
         </div>
-        <div class="checkout-content__table-total">
+        <div class="table-total">
           <p>總計： $ {{order.total}}</p>
         </div>
       </div>

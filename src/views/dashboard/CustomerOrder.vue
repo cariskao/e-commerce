@@ -8,7 +8,7 @@
 
   &-cart
     position fixed
-    top 80px
+    bottom 20px
     right 2%
     color $primary-color
     align-items center
@@ -62,16 +62,19 @@
 </style>
 <template>
   <div class="customer-order">
-    <div class="customer-order-cart" @click="openCart">
-      <i class="fas fa-lg fa-cart-plus"></i>
-      <div v-model="cartQty" class="customer-order-cart__num">{{handleCartQty}}</div>
-    </div>
-    <div class="customer-order-content">
-      <div class="customer-order-content__card">
-        <Card v-model="products"/>
+    <Loading :active.sync="isLoading"></Loading>
+    <template v-if="isNonEmptyArray(products)">
+      <div class="customer-order-cart" @click="openCart">
+        <i class="fas fa-lg fa-cart-plus"></i>
+        <div v-model="cartQty" class="customer-order-cart__num">{{handleCartQty}}</div>
       </div>
-    </div>
-    <Pagination class="customer-order__pagination" v-model="pagination" :changePage="changePage"/>
+      <div class="customer-order-content">
+        <div class="customer-order-content__card">
+          <Card v-model="products"/>
+        </div>
+      </div>
+      <Pagination class="customer-order__pagination" v-model="pagination" :changePage="changePage"/>
+    </template>
   </div>
 </template>
 <script>
@@ -89,7 +92,8 @@ export default {
     return {
       products: [],
       pagination: {},
-      cartQty: ""
+      cartQty: "",
+      isLoading: false
     };
   },
   computed: {
@@ -136,6 +140,7 @@ export default {
           this.products = this.deepCopy(products);
           this.pagination = pagination;
           this.isLoading = false;
+          this.$root.$emit('CustomerOrder:Loading',this.isLoading)
         } else {
           alert("請先登入，以利取得資料");
           this.$router.push({ name: "login" });
