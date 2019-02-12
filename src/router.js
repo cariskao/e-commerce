@@ -58,7 +58,6 @@ export default new Router({
           path: "/admin/customer_order",
           name: "customer_order",
           component: () => import("./views/dashboard/CustomerOrder"),
-          meta: { requiresAuth: true }
         },
         {
           path: "/admin/checkout/:orderId",

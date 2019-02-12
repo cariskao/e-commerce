@@ -22,7 +22,7 @@
       </div>
     </header>
     <h2 class="productpage__title">See What We Have Now!</h2>
-    <CustomerOrder/>
+    <CustomerOrder productApi="https://vue-course-api.hexschool.io/api/leochuang/products"/>
     <footer v-if="!isLoading">
       <Footer/>
     </footer>

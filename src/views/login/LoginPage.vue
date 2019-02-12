@@ -17,6 +17,7 @@
       display flex
       align-items center
       width 100%
+
       &__form
         margin 0 auto
         background #ecf0f1
@@ -47,7 +48,7 @@
 </style>
 <template>
   <div class="login-page__wrapper">
-    <div class="login-page__container">
+    <div class="login-page__container bannerHeight">
       <div class="login">
         <form class="login__form form_row" @submit.prevent="signIn">
           <div class="login__form__item form__column full">
@@ -86,7 +87,8 @@ export default {
       login: {
         username: "",
         password: ""
-      }
+      },
+      innerHeight:''
     };
   },
   watch: {},
@@ -94,7 +96,10 @@ export default {
   created() {
     // this.signIn();
   },
-  mounted() {},
+  mounted() {
+    this.getFullBanner();
+    this.onResize();
+  },
   destroyed() {},
   methods: {
     signIn() {
@@ -103,6 +108,18 @@ export default {
         if (res.data.success) {
           this.$router.push("/admin");
         }
+      });
+    },
+    getFullBanner() {
+      this.innerHeight = window.innerHeight + "px";
+      let bannerSection = document.querySelector(".bannerHeight");
+      bannerSection.style.height = this.innerHeight;
+    },
+    onResize() {
+      this.$nextTick(() => {
+        window.addEventListener("resize", () => {
+          this.getFullBanner();
+        });
       });
     }
   }

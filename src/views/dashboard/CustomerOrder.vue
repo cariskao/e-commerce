@@ -61,6 +61,7 @@
     text-align center
 </style>
 <template>
+
   <div class="customer-order">
     <Loading :active.sync="isLoading"></Loading>
     <template v-if="isNonEmptyArray(products)">
@@ -78,16 +79,26 @@
   </div>
 </template>
 <script>
+
 const cartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import Card from "@/components/Card";
-import CartModal from "@/components/form/CartModal";
 import Pagination from "@/components/Pagination";
-const productApi = `${process.env.VUE_APP_API}api/${
-  process.env.VUE_APP_CUSTOM
-}/admin/products`;
+// const productApi = `${process.env.VUE_APP_API}api/${
+//   process.env.VUE_APP_CUSTOM
+// }/admin/products`;
 export default {
-  components: { Card, Pagination, CartModal },
+  components: { Card, Pagination },
+  props: {
+    productApi: {
+      type: String,
+      default: () => {
+        return `${process.env.VUE_APP_API}api/${
+          process.env.VUE_APP_CUSTOM
+        }/admin/products`;
+      }
+    }
+  },
   data() {
     return {
       products: [],
@@ -132,7 +143,7 @@ export default {
       // API 伺服器路徑
       // 申請的 API PATH
       this.isLoading = true;
-      this.$http.get(`${productApi}?page=${page}`).then(res => {
+      this.$http.get(`${this.productApi}?page=${page}`).then(res => {
         if (res.data.success) {
           const {
             data: { products, pagination }
@@ -140,7 +151,7 @@ export default {
           this.products = this.deepCopy(products);
           this.pagination = pagination;
           this.isLoading = false;
-          this.$root.$emit('CustomerOrder:Loading',this.isLoading)
+          this.$root.$emit("CustomerOrder:Loading", this.isLoading);
         } else {
           alert("請先登入，以利取得資料");
           this.$router.push({ name: "login" });
