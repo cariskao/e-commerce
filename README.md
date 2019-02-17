@@ -7,6 +7,7 @@ https://leo36094.github.io/e-commerce/
 
 
 BackStage:
+
 Create / Delete / Sort / Edit Products (pagination feature included)
 ---
 ![image](https://github.com/Leo36094/e-commerce/blob/master/product.gif)
