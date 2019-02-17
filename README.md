@@ -1,8 +1,8 @@
-# side-project
+# E-commerce web side-project
 
 A project that simulate a e-commerce web with backstage like CMS system.
 
-#Front-Stage Section:
+## Front-Stage Section:
 
 Check it out here : https://leo36094.github.io/e-commerce/
 
@@ -13,7 +13,7 @@ Features:
 4. Pagination in products page
 5. Responsive
 
-#Back-Stage Section:
+## Back-Stage Section:
 
 Create / Delete / Sort / Edit Products (pagination feature included)
 ---
