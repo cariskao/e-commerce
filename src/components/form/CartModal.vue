@@ -12,7 +12,7 @@
 
   &__table
     margin-bottom 10px
-    max-width 500px
+    max-width 400px
 
   &-balance
     display flex
@@ -124,19 +124,13 @@ const cartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
 const deleteCartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
 const couponApi = "https://vue-course-api.hexschool.io/api/leochuang/coupon";
 import { mapGetters, mapActions } from "vuex";
-import ModalContent from "@/components/ModalContent";
-import TextArea from "@/components/TextArea";
 import Button from "@/components/reuse/Button";
-import Select from "@/components/reuse/Select";
 import Label from "@/components/reuse/Label";
 import Input from "@/components/reuse/Input";
 export default {
   components: {
-    ModalContent,
-    TextArea,
     Button,
     Label,
-    Select,
     Input
   },
   props: {},
@@ -190,7 +184,7 @@ export default {
         .delete(`${deleteCartApi}/${row.id}`, {
           data: row
         })
-        .then(res => {
+        .then(() => {
           this.init();
           this.$root.$emit("CartModal:refresh");
           this.isLoading = false;
@@ -227,7 +221,6 @@ export default {
             this.getCartData();
             this.notifySuccess("成功套用");
           } else {
-            console.log(res);
             this.isLoading = false;
             this.deleteMessage("找不到優惠券!");
           }

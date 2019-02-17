@@ -5,14 +5,8 @@
   width 100%
   padding-top 10%
 
-@media only screen and (max-width: 600px)
-  .modal-wrapper
-    padding-top calc(500px + 20%) !important
-  .modal-container
-    height 100%
-
 .modal-container
-  width 500px
+  max-width 500px
   height auto
   display flex
   align-items center
@@ -24,6 +18,9 @@
   box-shadow 0 2px 8px rgba(0, 0, 0, 0.33)
   transition all 0.3s ease
   font-family Helvetica, Arial, sans-serif
+@media only screen and (max-width 600px) 
+  .modal-container
+    padding 10px
 
 .modal
   width 100%
@@ -31,7 +28,7 @@
 <template>
   <transition name="modal">
     <BackgroundMask>
-      <div class="modal-wrapper modalHeight">
+      <div class="modal-wrapper" :style="{'marginTop':scrollPosition+'px'}">
         <div class="modal-container">
           <component class="modal" :is="modal"></component>
         </div>
@@ -47,46 +44,30 @@ import CartModal from "@/components/form/CartModal";
 import PaymentModal from "@/components/form/PaymentModal";
 export default {
   components: { BackgroundMask, CardModal, CartModal, PaymentModal },
-  props: {},
+  props: {
+    scrollPosition: {
+      type: Number,
+      default: () => {
+        return 0;
+      }
+    }
+  },
   data() {
-    return {
-      innerHeight: ""
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["modal"])
   },
   watch: {},
   created() {},
-  mounted() {
-    this.getFullHeight();
-    this.onResize();
-  },
+  mounted() {},
   destroyed() {
     this.emptyModalForm();
-    this.getFullHeight();
-    this.onResize();
   },
   methods: {
     ...mapActions(["setModalData"]),
     emptyModalForm() {
       this.setModalData("");
-    },
-    getFullHeight() {
-      this.innerHeight = window.innerHeight;
-      const header = document.querySelector("header");
-      if (header) {
-        let bannerSection = document.querySelector(".modalHeight");
-        let paddingTop = this.innerHeight / 1.75 + "px";
-        bannerSection.style.paddingTop = paddingTop;
-      }else return 
-    },
-    onResize() {
-      this.$nextTick(() => {
-        window.addEventListener("resize", () => {
-          this.getFullHeight();
-        });
-      });
     }
   }
 };

@@ -49,6 +49,7 @@
   @media only screen and (max-width: 600px)
     .el-card, .card
       width 320px
+
       &__background
         width 320px
 </style>
@@ -57,7 +58,7 @@
     <Loading :active.sync="isLoading"></Loading>
     <el-card
       class="card"
-      v-for="(item,index) in fullValue"
+      v-for="item in fullValue"
       :key="item.id"
       shadow="hover"
       :body-style="{ padding: '0px' }"
@@ -89,11 +90,8 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Button from "@/components/reuse/Button";
-import Select from "@/components/reuse/Select";
-import Label from "@/components/reuse/Label";
-import TextArea from "@/components/TextArea";
 const productApi = `${process.env.VUE_APP_API}api/${
   process.env.VUE_APP_CUSTOM
 }/product/`;
@@ -101,14 +99,13 @@ const cartApi = `${process.env.VUE_APP_API}api/leochuang/cart`;
 export default {
   components: {
     Button,
-    Select,
-    TextArea,
-    Label
   },
   props: {
     value: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
@@ -155,7 +152,7 @@ export default {
     },
     addToCart(id, qty = 1) {
       this.isLoading = true;
-      this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
+      this.$http.post(cartApi, { data: { product_id: id, qty } }).then(() => {
         this.showModal = false;
         this.$root.$emit("Card:refresh");
         this.isLoading = false;

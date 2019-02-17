@@ -61,13 +61,12 @@
     text-align center
 </style>
 <template>
-
   <div class="customer-order">
     <Loading :active.sync="isLoading"></Loading>
     <template v-if="isNonEmptyArray(products)">
       <div class="customer-order-cart" @click="openCart">
         <i class="fas fa-lg fa-cart-plus"></i>
-        <div v-model="cartQty" class="customer-order-cart__num">{{handleCartQty}}</div>
+        <div :value="cartQty" class="customer-order-cart__num">{{handleCartQty}}</div>
       </div>
       <div class="customer-order-content">
         <div class="customer-order-content__card">
@@ -79,7 +78,6 @@
   </div>
 </template>
 <script>
-
 const cartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
 import { mapActions } from "vuex";
 import Card from "@/components/Card";
@@ -172,7 +170,6 @@ export default {
     },
     openCart() {
       this.showModal();
-      // this.$router.push({ name: "order" });
     }
   }
 };

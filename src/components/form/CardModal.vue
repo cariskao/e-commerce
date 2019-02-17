@@ -9,7 +9,7 @@
       width 500px
       height 300px
       background no-repeat center center
-      background-size contain
+      background-size cover
 
       img
         width 100%
@@ -81,14 +81,12 @@
 <script>
 const cartApi = "https://vue-course-api.hexschool.io/api/leochuang/cart";
 import { mapGetters, mapActions } from "vuex";
-import ModalContent from "@/components/ModalContent";
 import TextArea from "@/components/TextArea";
 import Button from "@/components/reuse/Button";
 import Select from "@/components/reuse/Select";
 import Label from "@/components/reuse/Label";
 export default {
   components: {
-    ModalContent,
     TextArea,
     Button,
     Label,
@@ -141,7 +139,7 @@ export default {
     },
     addToCart(id, qty=1) {
       this.isLoading = true;
-      this.$http.post(cartApi, { data: { product_id: id, qty } }).then(res => {
+      this.$http.post(cartApi, { data: { product_id: id, qty } }).then(() => {
         this.showModal = false;
         this.$root.$emit("CardModal:refresh");
         this.isLoading = false;

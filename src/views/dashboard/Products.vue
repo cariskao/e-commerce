@@ -12,8 +12,6 @@
     &__table
       height 100%
 
-
-
       .el-checkbox__inner
         &:hover, &:focus
           border-color #66cfd2
@@ -57,8 +55,8 @@
           <el-table-column label="Cost" prop="origin_price" sortable></el-table-column>
           <el-table-column label="Price" prop="price" sortable></el-table-column>
           <el-table-column label="Active" prop="readableStatus" sortable></el-table-column>
-          <el-table-column  class="products-content__table__search">
-            <template slot="header" slot-scope="scope" width="16%">
+          <el-table-column class="products-content__table__search">
+            <template slot="header" width="16%">
               <el-input v-model="search" size="mini" placeholder="輸入關鍵字"/>
             </template>
             <template slot-scope="scope">
@@ -97,12 +95,10 @@ const productApi = `${process.env.VUE_APP_API}api/${
 }/admin/products`;
 const deleteApi = `${process.env.VUE_APP_API}api/leochuang/admin/product/`;
 import { mapActions } from "vuex";
-import CreateProductForm from "@/components/form/CreateProductForm.vue";
 import Button from "@/components/reuse/Button.vue";
 import Pagination from "@/components/Pagination.vue";
 export default {
   components: {
-    CreateProductForm,
     Button,
     Pagination
   },
@@ -112,7 +108,7 @@ export default {
       search: "",
       isLoading: false,
       pagination: {},
-      selectedItem: [],
+      selectedItem: []
     };
   },
   computed: {},
@@ -168,7 +164,7 @@ export default {
         .delete(`${deleteApi}${row.id}`, {
           data: row
         })
-        .then(res => {
+        .then(() => {
           this.init();
           this.deleteMessage();
         });

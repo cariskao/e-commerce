@@ -1,11 +1,9 @@
 <style lang="stylus">
 .home
   width 100%
-  height 100%
   font-family 'Montserrat', Arial, Helvetica, sans-serif
 
   h2
-    width 100%
     text-align center
     margin 12px 0
     font-size 18px
@@ -16,8 +14,6 @@
     padding 0
 
     &-container
-      width 100%
-      height 100%
       background url('../../assets/img/Banner.jpg') no-repeat center center
       background-size cover
       color #fff
@@ -36,7 +32,7 @@
     margin 20px 0
 
     &-container
-      width 960px
+      max-width 960px
       margin 0 auto
       height 100%
       display flex
@@ -65,9 +61,6 @@
           width 100%
 
     @media only screen and (max-width: 600px)
-      h2
-        font-size 30px
-
       .home-brand
         &-container
           flex-direction column
@@ -77,9 +70,8 @@
 
           &__info
             width 50%
-            min-height 150px
             margin 10px
-            font-size 24px
+            text-align center
 
             span
               padding 10px
@@ -89,14 +81,7 @@
           display flex
           flex-direction column
           margin 0
-
-          &__title
-            font-size 24px
-            text-align center
-
-          &__intro
-            font-size 20px
-            text-align center
+          text-align center
 
     &-service
       width 40%
@@ -113,61 +98,59 @@
 
       &__intro
         margin 0 auto
+        padding 10px 30px
         font-size 15px
-        line-height 1.2
-        padding 12px
+        line-height 1.5
 </style>
 <template>
   <div class="home">
-    <div class="home-container">
-      <header class="banner">
-        <div class="banner-container bannerHeight">
-          <MainPageHeader :textContent="headerTextContent"/>
-          <i class="fas fa-2x fa-chevron-circle-down down-scroll"></i>
+    <header class="banner">
+      <div class="banner-container" :style="{height:innerHeight}">
+        <MainPageHeader :textContent="headerTextContent"/>
+        <i class="fas fa-2x fa-chevron-circle-down down-scroll"></i>
+      </div>
+    </header>
+    <div class="home-brand">
+      <h2>We Also Provide Glasses</h2>
+      <div class="home-brand-container">
+        <div class="home-brand-icon">
+          <div class="home-brand-icon__info">
+            <div class="home-brand-icon__container">
+              <img src="@/assets/img/paper-icon.png">
+            </div>
+            <span>Comprehensive Exams</span>
+          </div>
+          <div class="home-brand-icon__info">
+            <div class="home-brand-icon__container">
+              <img src="@/assets/img/ruler-icon.png">
+            </div>
+            <span>Custom Fittings</span>
+          </div>
+          <div class="home-brand-icon__info">
+            <div class="home-brand-icon__container">
+              <img src="@/assets/img/truck-icon.png">
+            </div>
+            <span>Fast Delivery</span>
+          </div>
         </div>
-      </header>
-      <div class="home-brand">
-        <h2>We Also Provide Glasses</h2>
-        <div class="home-brand-container">
-          <div class="home-brand-icon">
-            <div class="home-brand-icon__info">
-              <div class="home-brand-icon__container">
-                <img src="@/assets/img/paper-icon.png">
-              </div>
-              <span>Comprehensive Exams</span>
-            </div>
-            <div class="home-brand-icon__info">
-              <div class="home-brand-icon__container">
-                <img src="@/assets/img/ruler-icon.png">
-              </div>
-              <span>Custom Fittings</span>
-            </div>
-            <div class="home-brand-icon__info">
-              <div class="home-brand-icon__container">
-                <img src="@/assets/img/truck-icon.png">
-              </div>
-              <span>Fast Delivery</span>
-            </div>
-          </div>
-          <div class="home-brand-service">
-            <h4 class="home-brand-service__title">PHILOSOPHY</h4>
-            <p
-              class="home-brand-service__intro"
-            >Over 75% of our brains are dedicated to one sense: vision. We believe everyone deserves to see the world, not matter what. That’s why we offer eye exams, custom fittings, and quick delivery at a low cost. It’s your vision that makes ours.</p>
-          </div>
+        <div class="home-brand-service">
+          <h4 class="home-brand-service__title">PHILOSOPHY</h4>
+          <p
+            class="home-brand-service__intro"
+          >Over 75% of our brains are dedicated to one sense: vision. We believe everyone deserves to see the world, not matter what. That’s why we offer eye exams, custom fittings, and quick delivery at a low cost. It’s your vision that makes ours.</p>
+        </div>
 
-          <div class="home-brand-service">
-            <h4 class="home-brand-service__title">APPOINTMENTS</h4>
-            <p
-              class="home-brand-service__intro"
-            >Schedule an appointment by calling us at (312) 654-0987. We’re open Tuesday - Saturday, 9AM - 6PM.</p>
-          </div>
+        <div class="home-brand-service">
+          <h4 class="home-brand-service__title">APPOINTMENTS</h4>
+          <p
+            class="home-brand-service__intro"
+          >Schedule an appointment by calling us at (312) 654-0987. We’re open Tuesday - Saturday, 9AM - 6PM.</p>
         </div>
       </div>
-      <footer class="footer">
-        <Footer/>
-      </footer>
     </div>
+    <footer class="footer">
+      <Footer/>
+    </footer>
   </div>
 </template>
 <script>
@@ -196,8 +179,6 @@ export default {
   methods: {
     getFullBanner() {
       this.innerHeight = window.innerHeight + "px";
-      let bannerSection = document.querySelector(".bannerHeight");
-      bannerSection.style.height = this.innerHeight;
     },
     onResize() {
       this.$nextTick(() => {
