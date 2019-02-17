@@ -2,11 +2,11 @@
 
 A project that simulate a e-commerce web with backstage like CMS system.
 
-FrontStage:
+#Front-Stage Section:
+
 https://leo36094.github.io/e-commerce/
 
-
-BackStage:
+#Back-Stage Section:
 
 Create / Delete / Sort / Edit Products (pagination feature included)
 ---
