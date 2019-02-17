@@ -4,7 +4,14 @@ A project that simulate a e-commerce web with backstage like CMS system.
 
 #Front-Stage Section:
 
-https://leo36094.github.io/e-commerce/
+Check it out here : https://leo36094.github.io/e-commerce/
+
+Features:
+1. Checkout flow
+2. Shopping cart preview
+3. Login to back-stage
+4. Pagination in products page
+5. Responsive
 
 #Back-Stage Section:
 
