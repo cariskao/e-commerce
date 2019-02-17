@@ -2,12 +2,12 @@
 @import '../../assets/style/_base.styl'
 
 .checkout
-  width 100%
+  padding 20px
 
   &-content
-    width 500px
+    width 100%
     height 100%
-    padding 5% 10%
+    max-width 500px
     margin 0 auto
 
     &__title
@@ -76,7 +76,7 @@
           <p class="table-item__price">單價</p>
           <p v-if="!order.products.coupon" class="table-item__discount">折扣價</p>
         </div>
-        <div v-for="(item,index) in products" :key="item.id" class="table-item">
+        <div v-for="item in products" :key="item.id" class="table-item">
           <p class="table-item__product">{{item.product.title}}</p>
           <p class="table-item__qty">{{item.qty}}</p>
           <p class="table-item__price">{{item.product.price}}</p>
@@ -129,7 +129,7 @@
 <script>
 const orderApi = "https://vue-course-api.hexschool.io/api/leochuang/order";
 const payApi = "https://vue-course-api.hexschool.io/api/leochuang/pay";
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import TextArea from "@/components/TextArea";
 import Button from "@/components/reuse/Button";
 import Label from "@/components/reuse/Label";
@@ -227,7 +227,6 @@ export default {
       this.$http
         .post(`${payApi}/${this.orderId}`, { data: order })
         .then(res => {
-          console.log(res);
           if (res.data.success) {
             this.getOrderData();
             this.isLoading = false;

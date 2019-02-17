@@ -46,7 +46,7 @@ export default {
   components: { BackgroundMask, CardModal, CartModal, PaymentModal },
   props: {
     scrollPosition: {
-      type: Number,
+      type: [Number,String],
       default: () => {
         return 0;
       }

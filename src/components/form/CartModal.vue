@@ -12,7 +12,7 @@
 
   &__table
     margin-bottom 10px
-    max-width 400px
+    width 100%
 
   &-balance
     display flex
