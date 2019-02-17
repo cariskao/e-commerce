@@ -10,8 +10,9 @@ Features:
 1. Checkout flow
 2. Shopping cart preview
 3. Login to back-stage
-4. Pagination in products page
-5. Responsive
+4. Pagination in products page)
+5. Coupon (You can test by '123')
+6. Responsive
 
 ## Back-Stage Section:
 
