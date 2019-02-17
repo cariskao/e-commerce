@@ -1,8 +1,12 @@
 # side-project
 
-A project that simulate a e-commerce web with CMS system (DataBase was build by others)
+A project that simulate a e-commerce web with backstage like CMS system.
+
+FrontStage:
+https://leo36094.github.io/e-commerce/
 
 
+BackStage:
 Create / Delete / Sort / Edit Products (pagination feature included)
 ---
 ![image](https://github.com/Leo36094/e-commerce/blob/master/product.gif)
